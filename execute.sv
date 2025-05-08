@@ -19,7 +19,7 @@ module execute (
       .in1(alu_in1),
       .in2(alu_in2),
       .alu_op(de_to_ex.alu_op),
-      .result(alu_result_wire),
+      .result(alu_result_wire)
   );
 
   logic cmp_res;
