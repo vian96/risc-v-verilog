@@ -19,7 +19,10 @@ module riscv_pipeline (
   logic       [31:0] wb_data_wire;
   logic              wb_en_wire;
 
-  // HU wires
+  logic              pc_r;
+  logic       [31:0] pc_exec;
+
+  // Hazard Unit
   hu_src_e           rs1s;
   hu_src_e           rs2s;
 
@@ -43,15 +46,20 @@ module riscv_pipeline (
       .src(rs2s)
   );
 
+  // Main modules
+
   fetch fetch_inst (
       .clk(clk),
       .reset(reset),
       .pc_init(pc_init),
+      .pc_r(pc_r),
+      .pc_exec(pc_exec),
       .fe_to_de(fe_to_de_wire)
   );
 
   decode decode_inst (
       .clk(clk),
+      .pc_r(pc_r),
       .fe_to_de(fe_to_de_wire),
       .writeback_address(wb_addr_wire),
       .write_back_data(wb_data_wire),
@@ -61,6 +69,8 @@ module riscv_pipeline (
 
   execute execute_inst (
       .clk(clk),
+      .pc_reset(pc_r),
+      .pc_exec(pc_exec),
       .de_to_ex(de_to_ex_wire),
       .ex_to_mem(ex_to_mem_wire),
       .rs1s(rs1s),

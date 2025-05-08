@@ -6,6 +6,7 @@ module decode (
     input  logic      [ 4:0] writeback_address,
     input  logic      [31:0] write_back_data,
     input  logic             write_back_enable,
+    input  logic             pc_r,
     output de_to_ex_s        de_to_ex
 );
 
@@ -52,6 +53,7 @@ module decode (
   logic               next_reg_write;
   logic               use_imm;
   logic               use_pc;
+  logic               is_jump;
 
   //// CONTROL UNIT
 
@@ -97,6 +99,7 @@ module decode (
       1'b0;
 
   assign use_pc = (instr_type == B_TYPE) ? 1'b1 : (instr_type == J_TYPE) ? 1'b1 : 1'b0;
+  assign is_jump = (instr_type == J_TYPE) ? 1'b1 : (opcode == 7'b1100111) ? 1'b1 : 1'b0;
 
   //// IMMEDIATE UNIT
 
@@ -122,6 +125,10 @@ module decode (
       32'b0;
 
   always_ff @(posedge clk) begin
+    $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d", $time, !(pc_r || fe_to_de.pc_r),
+             pc_r, fe_to_de.pc_r);
+
+
     de_to_ex_reg.pc_value              <= fe_to_de.pc_value;
     de_to_ex_reg.rs1_data              <= rs1_val;
     de_to_ex_reg.rs2_data              <= rs2_val;
@@ -139,7 +146,9 @@ module decode (
     de_to_ex_reg.mem_read              <= next_mem_read;
     de_to_ex_reg.use_imm               <= use_imm;
     de_to_ex_reg.use_pc                <= use_pc;
+    de_to_ex_reg.is_jump               <= is_jump;
 
+    de_to_ex_reg.v_de                  <= !(pc_r || fe_to_de.pc_r);
   end
 
 endmodule

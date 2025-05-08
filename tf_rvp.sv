@@ -29,7 +29,7 @@ module riscv_pipeline_tb;
     $dumpvars(0, riscv_pipeline_tb);
 
     reset = 1;
-    #(CLK_PERIOD * 2);  // Hold reset for a few clock cycles
+    #(CLK_PERIOD * 20);  // Hold reset for a few clock cycles
     reset = 0;
 
     // --- Test Case 1: Load word from address 0x0 (offset 0, rs1 = 0) ---

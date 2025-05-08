@@ -20,6 +20,7 @@ typedef enum logic [1:0] {
 typedef struct packed {
   logic [31:0] instruction_value;
   logic [31:0] pc_value;
+  logic pc_r;
 } fe_to_de_s;
 
 typedef enum logic [4:0] {
@@ -41,9 +42,11 @@ typedef struct packed {
   logic reg_write;
   logic mem_read;
   logic use_imm;
-  logic use_pc;
+  logic use_pc;  // for B.. or JAL
+  logic is_jump;  // for uncond jumps: JAL(R)
   logic [4:0] rd;
   logic [2:0] funct3;
+  logic v_de;
 } de_to_ex_s;
 
 typedef struct packed {
