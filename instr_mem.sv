@@ -1,3 +1,5 @@
+`include "riscv_structures.sv"
+
 module instr_mem (
     input  logic        clk,
     input  logic [31:0] address,
@@ -14,8 +16,8 @@ module instr_mem (
   end
 
   always @(posedge clk) begin
-    $display("Time %0t: Instr Memory Input -> Address = 0x%h, val = 0x%h", $time, address,
-             read_data);
+    $display("Time %0t: \033[33m Instr Memory Input \033[0m -> Address = 0x%h, val = 0x%h", $time,
+             address, read_data);
   end
 
   assign read_data = mem[address[31:2]];

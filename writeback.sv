@@ -12,5 +12,11 @@ module writeback (
   assign write_back_enable = mem_to_wb.reg_write;
   assign write_back_data   = mem_to_wb.data;
 
+  always @(posedge clk) begin
+    $display("Time %0t: \033[32m Write Back \033[0m -> Address = 0x%h, val = 0x%h, enable = 0x%h",
+             $time, writeback_address, write_back_data, write_back_enable);
+  end
+
+
 endmodule
 

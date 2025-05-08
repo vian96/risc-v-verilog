@@ -1,9 +1,12 @@
 `include "riscv_structures.sv"
 
 module riscv_pipeline (
-    input logic        clk,
-    input logic        reset,
-    input logic [31:0] pc_init
+    input  logic        clk,
+    input  logic        reset,
+    input  logic [31:0] pc_init,
+    output logic        wb_e,
+    output logic [ 4:0] wb_a,
+    output logic [31:0] wb_d
 );
 
   fe_to_de_s         fe_to_de_wire;
@@ -51,6 +54,11 @@ module riscv_pipeline (
       .write_back_data(wb_data_wire),
       .write_back_enable(wb_en_wire)
   );
+
+  assign wb_e = wb_en_wire;
+  assign wb_d = wb_data_wire;
+  assign wb_a = wb_addr_wire;
+
 
 endmodule
 

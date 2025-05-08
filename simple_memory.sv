@@ -1,3 +1,5 @@
+`include "riscv_structures.sv"
+
 module simple_memory (
     input  logic        clk,
     input  logic [31:0] address,
@@ -17,7 +19,8 @@ module simple_memory (
   end
 
   always @(posedge clk) begin
-    $display("Time %0t: Memory Input -> Address = 0x%h, val = 0x%h", $time, address, read_data);
+    $display("Time %0t: \033[34m Memory Input \033[0m -> Address = 0x%h, val = 0x%h", $time,
+             address, read_data);
     if (write_enable) mem[address[31:2]] <= write_data;
   end
 
