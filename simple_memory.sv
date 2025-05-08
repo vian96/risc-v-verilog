@@ -26,6 +26,10 @@ module simple_memory (
     mem[21] = 32'h0000000A; // Data for lw x2 (value 5) - Set to 5 to trigger the BEQ branch initially
     mem[22] = 32'h00000014;  // Data for lw x3 (value 20)
 
+    // TEST 3
+    // It will be overwritten by the SW instruction.
+    // This is the memory location at address 120 (0x78) / mem[30].
+    mem[30] = 32'hFFFFFFFF;  // Initial value at address 120.
   end
 
   always @(posedge clk) begin

@@ -54,7 +54,8 @@ module execute (
         rs1s, rs2s, bp_mem, bp_wb, cmp_res, de_to_ex.use_pc, de_to_ex.is_jump,
         de_to_ex.reg_write && de_to_ex.v_de, rs1_val, rs2_val);
 
-    ex_to_mem_reg.alu_result <= alu_result_wire;
+    // TODO: make it use only alu+sum instead of alu+2sum+cmp
+    ex_to_mem_reg.alu_result <= de_to_ex.is_jump ? (de_to_ex.pc_value + 4) : alu_result_wire;
     ex_to_mem_reg.write_data <= rs2_val;  // rs2_data is the value to store
 
     ex_to_mem_reg.mem_write  <= de_to_ex.mem_write && de_to_ex.v_de;
