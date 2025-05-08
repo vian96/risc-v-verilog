@@ -7,7 +7,8 @@ module decode (
     input  logic      [31:0] write_back_data,
     input  logic             write_back_enable,
     input  logic             pc_r,
-    output de_to_ex_s        de_to_ex
+    output de_to_ex_s        de_to_ex,
+    output logic      [31:0] regs             [32]
 );
 
   de_to_ex_s de_to_ex_reg;
@@ -34,15 +35,16 @@ module decode (
 
   reg_file rf (
       // inp
-      .clk(clk),
-      .a1 (rs1),
-      .a2 (rs2),
-      .a3 (writeback_address),
-      .wd (write_back_data),
-      .we3(write_back_enable),
+      .clk (clk),
+      .a1  (rs1),
+      .a2  (rs2),
+      .a3  (writeback_address),
+      .wd  (write_back_data),
+      .we3 (write_back_enable),
       // outp
-      .d1 (rs1_val),
-      .d2 (rs2_val)
+      .d1  (rs1_val),
+      .d2  (rs2_val),
+      .regs(regs)
   );
 
   // will be output
@@ -94,6 +96,7 @@ module decode (
 
   assign use_imm = (instr_type == I_TYPE) ? 1'b1 :
       (instr_type == J_TYPE) ? 1'b1 :
+      (instr_type == B_TYPE) ? 1'b1 :
       (instr_type == S_TYPE) ? 1'b1 :
       (instr_type == U_TYPE) ? 1'b1 : // TODO: not sure
       1'b0;

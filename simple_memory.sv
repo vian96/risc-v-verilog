@@ -12,10 +12,17 @@ module simple_memory (
   reg [31:0] mem[255];
 
   initial begin
+    // FOR TEST 1
     mem[0] = 32'hDEADBEEF;
     mem[1] = 32'h12345678;
     mem[2] = 32'hABCDEF01;
     mem[3] = 32'hFEDCBA98;
+
+    // FOR TEST 2
+    mem[20] = 32'h00000005;  // Data for lw x1 (value 5)
+    mem[21] = 32'h00000005; // Data for lw x2 (value 5) - Set to 5 to trigger the BEQ branch initially
+    mem[22] = 32'h00000014;  // Data for lw x3 (value 20)
+
   end
 
   always @(posedge clk) begin

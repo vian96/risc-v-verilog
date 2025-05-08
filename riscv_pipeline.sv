@@ -6,7 +6,9 @@ module riscv_pipeline (
     input  logic [31:0] pc_init,
     output logic        wb_e,
     output logic [ 4:0] wb_a,
-    output logic [31:0] wb_d
+    output logic [31:0] wb_d,
+    output logic [31:0] pc_out,
+    output logic [31:0] regs   [32]
 );
 
   fe_to_de_s         fe_to_de_wire;
@@ -54,7 +56,8 @@ module riscv_pipeline (
       .pc_init(pc_init),
       .pc_r(pc_r),
       .pc_exec(pc_exec),
-      .fe_to_de(fe_to_de_wire)
+      .fe_to_de(fe_to_de_wire),
+      .pc_out(pc_out)
   );
 
   decode decode_inst (
@@ -64,7 +67,8 @@ module riscv_pipeline (
       .writeback_address(wb_addr_wire),
       .write_back_data(wb_data_wire),
       .write_back_enable(wb_en_wire),
-      .de_to_ex(de_to_ex_wire)
+      .de_to_ex(de_to_ex_wire),
+      .regs(regs)
   );
 
   execute execute_inst (

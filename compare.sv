@@ -7,7 +7,7 @@ module compare (
 
   // TODO: add more conds
   assign cond = (funct3 == 0) ? in1 == in2 :
-                (funct3 == 1) ? in1 == in2 :
+                (funct3 == 1) ? in1 != in2 :
                 (funct3 == 4) ? in1 < in2 :
                 0;
 

@@ -6,6 +6,7 @@ module fetch (
     input  logic      [31:0] pc_init,
     input  logic      [31:0] pc_exec,
     input  logic             pc_r,
+    output logic      [31:0] pc_out,
     output fe_to_de_s        fe_to_de
 );
 
@@ -20,7 +21,10 @@ module fetch (
       .read_data(instruction_value_wire)
   );
 
+  assign pc_out = pc;
+
   always_ff @(posedge clk or posedge reset) begin
+    $display("Time %0t \033[96m FETCH \033[0m: pc_r 0x%h, pc_exec 0x%h", $time, pc_r, pc_exec);
     if (reset) begin
       pc <= pc_init;
       fe_to_de_reg.instruction_value <= '0;
