@@ -17,7 +17,7 @@ module reg_file (
   assign d2 = (a2 != 0) ? registers[a2] : 32'b0;
 
   always_ff @(posedge clk) begin
-    $display("Time %0t: \033[35m Reg file \033[0m -> Address = 0x%h, val = 0x%h, enable = 0x%h",
+    $display("Time %0t: \033[35m Reg file \033[0m -> Address = %d, val = 0x%h, enable = 0x%h",
              $time, a3, wd, we3);
     if (we3 && (a3 != 0)) begin
       registers[a3] <= wd;

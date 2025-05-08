@@ -37,8 +37,9 @@ module execute (
   assign alu_in2 = (de_to_ex.use_imm) ? de_to_ex.immediate_sext : de_to_ex.rs2_data;
 
   always_ff @(posedge clk) begin
-    $display("Time %0t:  Execute -> in1 = 0x%h, in2 = 0x%h, out = 0x%h, use_imm = 0x%h", $time,
-             alu_in1, alu_in2, alu_result_wire, de_to_ex.use_imm);
+    $display(
+        "Time %0t:  Execute -> in1 = 0x%h, in2 = 0x%h, out = 0x%h, use_imm = 0x%h, rd = %d, aluop = %d",
+        $time, alu_in1, alu_in2, alu_result_wire, de_to_ex.use_imm, de_to_ex.rd, de_to_ex.alu_op);
 
     ex_to_mem_reg.alu_result <= alu_result_wire;
     ex_to_mem_reg.write_data <= de_to_ex.rs2_data;  // rs2_data is the value to store
