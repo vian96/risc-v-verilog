@@ -71,7 +71,7 @@ module riscv_pipeline_tb;
       $display("\033[31mTest Case 2.5 Failed\033[0m: addi x7, x0, 4");
       $display("Expected: x7 = 4, Actual: x%0d = 0x%h (enable=%b)", wb_a, wb_d, wb_e);
     end
-    #(CLK_PERIOD * 4);  // Wait instr + 3 nops
+    #(CLK_PERIOD * 1);  // Wait instr + 3 nops
 
 
     // --- Test Case 3: Load word from address 0xC (offset 8, rs1 = 4) ---
@@ -81,7 +81,8 @@ module riscv_pipeline_tb;
     // The value at memory address 0xC is FEDCBA98 (from simple_memory.sv initial block)
     $display("Time %0t", $time);
     if (wb_e && wb_a == 5'd3 && wb_d == 32'hFEDCBA98) begin  // Corrected expected value
-      $display("\033[31mTest Case 3 \033[32mPassed\033[0m: lw x3, 8(x7) (hFEDCBA98)");
+      $display(
+          "\033[31mTest Case 3 (HU + load by reg+imm)  \033[32mPassed\033[0m: lw x3, 8(x7) (hFEDCBA98)");
     end else begin
       $display("\033[31mTest Case 3 Failed\033[0m: lw x3, 8(x7) (hFEDCBA98)");
       $display("Expected: x7 = 0xFEDCBA98, Actual: x%0d = 0x%h (enable=%b)", wb_a, wb_d, wb_e);

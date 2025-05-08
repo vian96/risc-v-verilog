@@ -126,6 +126,8 @@ module decode (
     de_to_ex_reg.rs1_data              <= rs1_val;
     de_to_ex_reg.rs2_data              <= rs2_val;
     de_to_ex_reg.rd                    <= rd;
+    de_to_ex_reg.rs1                   <= rs1;
+    de_to_ex_reg.rs2                   <= rs2;
     de_to_ex_reg.funct3                <= funct3;
 
     de_to_ex_reg.immediate_sext        <= next_immediate_sext;

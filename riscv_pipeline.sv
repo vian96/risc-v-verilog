@@ -19,6 +19,30 @@ module riscv_pipeline (
   logic       [31:0] wb_data_wire;
   logic              wb_en_wire;
 
+  // HU wires
+  hu_src_e           rs1s;
+  hu_src_e           rs2s;
+
+  hu hu1 (
+      .clk(clk),
+      .ex_rs(de_to_ex_wire.rs1),
+      .mem_we(ex_to_mem_wire.reg_write),
+      .wb_we(mem_to_wb_wire.reg_write),
+      .mem_rd(ex_to_mem_wire.rd),
+      .wb_rd(mem_to_wb_wire.rd),
+      .src(rs1s)
+  );
+
+  hu hu2 (
+      .clk(clk),
+      .ex_rs(de_to_ex_wire.rs2),
+      .mem_we(ex_to_mem_wire.reg_write),
+      .wb_we(mem_to_wb_wire.reg_write),
+      .mem_rd(ex_to_mem_wire.rd),
+      .wb_rd(mem_to_wb_wire.rd),
+      .src(rs2s)
+  );
+
   fetch fetch_inst (
       .clk(clk),
       .reset(reset),
@@ -38,7 +62,11 @@ module riscv_pipeline (
   execute execute_inst (
       .clk(clk),
       .de_to_ex(de_to_ex_wire),
-      .ex_to_mem(ex_to_mem_wire)
+      .ex_to_mem(ex_to_mem_wire),
+      .rs1s(rs1s),
+      .rs2s(rs2s),
+      .bp_mem(ex_to_mem_wire.alu_result),
+      .bp_wb(mem_to_wb_wire.data)
   );
 
   memory memory_inst (

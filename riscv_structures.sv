@@ -11,6 +11,12 @@ typedef enum logic [2:0] {
   INVALID_TYPE
 } instr_type_e;
 
+typedef enum logic [1:0] {
+  REG,
+  MEM,
+  WB
+} hu_src_e;
+
 typedef struct packed {
   logic [31:0] instruction_value;
   logic [31:0] pc_value;
@@ -23,6 +29,8 @@ typedef enum logic [4:0] {
 
 typedef struct packed {
   logic [31:0] pc_value;
+  logic [4:0] rs1;
+  logic [4:0] rs2;
   logic [31:0] rs1_data;
   logic [31:0] rs2_data;
   logic [31:0] immediate_sext;

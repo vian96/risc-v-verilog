@@ -1,5 +1,3 @@
-`include "riscv_structures.sv"
-
 module compare (
     input  logic [31:0] in1,
     input  logic [31:0] in2,
