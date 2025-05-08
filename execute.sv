@@ -13,7 +13,6 @@ module execute (
   logic [31:0] alu_in1;
   logic [31:0] alu_in2;
   logic [31:0] alu_result_wire;
-  logic [ 2:0] compare_result_wire;
 
   alu alu_inst (
       .in1(alu_in1),
@@ -33,13 +32,14 @@ module execute (
 
 
   // TODO: add jalr
-  assign alu_in1 = (de_to_ex.opcode == 7'b1101111) ? de_to_ex.pc_value :  // JAL uses PC
-      de_to_ex.rs1_data;
+  assign alu_in1 = (de_to_ex.use_pc) ? de_to_ex.pc_value : de_to_ex.rs1_data;
 
-  assign alu_in2 = (de_to_ex.opcode == 7'b0110011) ? de_to_ex.rs2_data :  // ADD uses rs2_data
-      de_to_ex.immediate_sext;
+  assign alu_in2 = (de_to_ex.use_imm) ? de_to_ex.immediate_sext : de_to_ex.rs2_data;
 
   always_ff @(posedge clk) begin
+    $display("Time %0t:  Execute -> in1 = 0x%h, in2 = 0x%h, out = 0x%h, use_imm = 0x%h", $time,
+             alu_in1, alu_in2, alu_result_wire, de_to_ex.use_imm);
+
     ex_to_mem_reg.alu_result <= alu_result_wire;
     ex_to_mem_reg.write_data <= de_to_ex.rs2_data;  // rs2_data is the value to store
 

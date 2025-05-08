@@ -1,16 +1,15 @@
 `ifndef RISCV_STRUCTURES_SV_
 `define RISCV_STRUCTURES_SV_
 
-`define ANSIRESET "\033[0m";
-`define BOLD "\033[1m";
-`define BLACK "\033[30m";
-`define RED "\033[31m";
-`define GREEN "\033[32m";
-`define YELLOW "\033[33m";
-`define BLUE "\033[34m";
-`define MAGENTA "\033[35m";
-`define CYAN "\033[36m";
-`define WHITE "\033[37m";
+typedef enum logic [2:0] {
+  R_TYPE,
+  I_TYPE,
+  S_TYPE,
+  B_TYPE,
+  U_TYPE,
+  J_TYPE,
+  INVALID_TYPE
+} instr_type_e;
 
 typedef struct packed {
   logic [31:0] instruction_value;
@@ -18,10 +17,8 @@ typedef struct packed {
 } fe_to_de_s;
 
 typedef enum logic [4:0] {
-  ALU_ADD,    // Addition (for ADD, LD, SD, JALR, JAL, AUIPC)
-  ALU_EQ,     // Equal (for BEQ)
-  // Add other necessary ALU ops if more instructions are added later
-  ALU_INVALID // Default for unsupported instructions
+  ALU_ADD,  // Addition (for ADD, LD, SD, JALR, JAL, AUIPC)
+  ALU_INVALID
 } alu_op_e;
 
 typedef struct packed {
@@ -35,8 +32,9 @@ typedef struct packed {
   logic mem_write;
   logic reg_write;
   logic mem_read;
+  logic use_imm;
+  logic use_pc;
   logic [4:0] rd;
-  logic [6:0] opcode;
   logic [2:0] funct3;
 } de_to_ex_s;
 

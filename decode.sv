@@ -45,34 +45,58 @@ module decode (
   );
 
   // will be output
-  logic    [31:0] next_immediate_sext;
-  alu_op_e        next_alu_op;
-  logic           next_mem_write;
-  logic           next_reg_write;
+  logic        [31:0] next_immediate_sext;
+  alu_op_e            next_alu_op;
+  logic               next_mem_write;
+  logic               next_mem_read;
+  logic               next_reg_write;
+  logic               use_imm;
+  logic               use_pc;
 
   //// CONTROL UNIT
+
+  instr_type_e        instr_type;
+
+  assign instr_type = (opcode == 7'b0110011) ? R_TYPE :  // R-type
+      (opcode == 7'b0010011) ? I_TYPE :  // I-type (Immediate arithmetic/logic)
+      (opcode == 7'b0000011) ? I_TYPE :  // I-type (Load)
+      (opcode == 7'b1100111) ? I_TYPE :  // I-type (JALR)
+      (opcode == 7'b0100011) ? S_TYPE :
+      (opcode == 7'b1100011) ? B_TYPE :
+      (opcode == 7'b0110111) ? U_TYPE :  // U-type (LUI tho not implemented)
+      (opcode == 7'b0010111) ? U_TYPE :  // U-type (AUIPC tho not implemented)
+      (opcode == 7'b1101111) ? J_TYPE :  // J-type (JAL)
+      (opcode == 7'b1110011) ? I_TYPE :  // I-type (ECALL, EBREAK, CSR)
+      INVALID_TYPE;  // Default to invalid for any other opcode
 
   assign next_mem_read = (opcode == 7'b0000011) ? 1'b1 :  // LD (I-type)
       1'b0;  // Other instructions do not read memory
 
-  assign next_reg_write = (opcode == 7'b0110011) ? 1'b1 :  // ADD (R-type)
-      (opcode == 7'b0000011) ? 1'b1 :  // LD (I-type)
-      (opcode == 7'b1100111) ? 1'b1 :  // JALR (I-type)
-      (opcode == 7'b1101111) ? 1'b1 :  // JAL (J-type)
-      1'b0;  // SD, BEQ do not write to register
+  assign next_reg_write = (instr_type == R_TYPE) ? 1'b1 :
+      (instr_type == I_TYPE) ? 1'b1 :
+      (instr_type == U_TYPE) ? 1'b1 :
+      (instr_type == J_TYPE) ? 1'b1 :
+      1'b0;
 
   assign next_mem_write = (opcode == 7'b0100011) ? 1'b1 :  // SD (S-type)
       1'b0;  // Other instructions do not write memory
 
-  assign next_alu_op = (
-          opcode == 7'b0110011 && funct3 == 3'b000 && funct7 == 7'b0000000
-      ) ? ALU_ADD : // ADD
+  assign next_alu_op = (instr_type == S_TYPE) ? ALU_ADD :  // stores
+      (instr_type == J_TYPE) ? ALU_ADD :  // JAL
+      (instr_type == B_TYPE) ? ALU_ADD :  // branches
+      (opcode == 7'b0110011 && funct3 == 3'b000 && funct7 == 7'b0000000) ? ALU_ADD :  // ADD
+      (opcode == 7'b0110011 && funct3 == 3'b000) ? ALU_ADD :  // ADDI
       (opcode == 7'b0000011) ? ALU_ADD :  // LD (calculate address)
-      (opcode == 7'b0100011) ? ALU_ADD :  // SD (calculate address)
       (opcode == 7'b1100111) ? ALU_ADD :  // JALR (calculate target address)
-      (opcode == 7'b1101111) ? ALU_ADD :  // JAL (calculate target address)
-      (opcode == 7'b1100011 && funct3 == 3'b000) ? ALU_EQ :  // BEQ
       ALU_INVALID;  // For any other instruction
+
+  assign use_imm = (instr_type == I_TYPE) ? 1'b1 :
+      (instr_type == J_TYPE) ? 1'b1 :
+      (instr_type == S_TYPE) ? 1'b1 :
+      (instr_type == U_TYPE) ? 1'b1 : // TODO: not sure
+      1'b0;
+
+  assign use_pc = (instr_type == B_TYPE) ? 1'b1 : (instr_type == J_TYPE) ? 1'b1 : 1'b0;
 
   //// IMMEDIATE UNIT
 
@@ -90,19 +114,18 @@ module decode (
 
 
   // Sign-extend the correct immediate based on opcode
-  assign next_immediate_sext = (opcode == 7'b0000011) ? {{20{imm_i[11]}}, imm_i} :  // LD (I-type)
-      (opcode == 7'b0100011) ? {{20{imm_s[11]}}, imm_s} :  // SD (S-type)
-      (opcode == 7'b1100111) ? {{20{imm_i[11]}}, imm_i} :  // JALR (I-type)
-      (opcode == 7'b1100011) ? {{19{imm_b[12]}}, imm_b} :  // BEQ (B-type)
-      (opcode == 7'b1101111) ? {{11{imm_j[20]}}, imm_j} :  // JAL (J-type)
-      32'b0;  // Default to 0 for instructions with no immediate (ADD) or unsupported types
+  assign next_immediate_sext = (instr_type == I_TYPE) ? {{20{imm_i[11]}}, imm_i} :
+      (instr_type == S_TYPE) ? {{20{imm_s[11]}}, imm_s} :
+      (instr_type == I_TYPE) ? {{20{imm_i[11]}}, imm_i} :
+      (instr_type == B_TYPE) ? {{19{imm_b[12]}}, imm_b} :
+      (instr_type == J_TYPE) ? {{11{imm_j[20]}}, imm_j} :
+      32'b0;
 
   always_ff @(posedge clk) begin
     de_to_ex_reg.pc_value              <= fe_to_de.pc_value;
     de_to_ex_reg.rs1_data              <= rs1_val;
     de_to_ex_reg.rs2_data              <= rs2_val;
     de_to_ex_reg.rd                    <= rd;
-    de_to_ex_reg.opcode                <= opcode;
     de_to_ex_reg.funct3                <= funct3;
 
     de_to_ex_reg.immediate_sext        <= next_immediate_sext;
@@ -112,6 +135,9 @@ module decode (
     de_to_ex_reg.mem_write             <= next_mem_write;
     de_to_ex_reg.reg_write             <= next_reg_write;
     de_to_ex_reg.mem_read              <= next_mem_read;
+    de_to_ex_reg.use_imm               <= use_imm;
+    de_to_ex_reg.use_pc                <= use_pc;
+
   end
 
 endmodule
