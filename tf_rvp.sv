@@ -42,7 +42,7 @@ module riscv_pipeline_tb;
     // The value at memory address 0x0 is DEADBEEF
     $display("Time %0t", $time);
     if (wb_e && wb_a == 5'd1 && wb_d == 32'hDEADBEEF) begin
-      $display("Test Case 1 Passed: lw x1, 0(x0)");
+      $display("Test Case 1 Passed: lw x1, 0(x0) (hDEADBEEF)");
     end else begin
       $display("Test Case 1 Failed: lw x1, 0(x0)");
       $display("Expected: x1 = 0xDEADBEEF, Actual: x%0d = 0x%h (enable=%b)", wb_a, wb_d, wb_e);
@@ -55,7 +55,7 @@ module riscv_pipeline_tb;
     // The value at memory address 0x4 is 12345678
     $display("Time %0t", $time);
     if (wb_e && wb_a == 5'd2 && wb_d == 32'h12345678) begin
-      $display("Test Case 2 Passed: lw x2, 4(x0)");
+      $display("Test Case 2 Passed: lw x2, 4(x0) (h12345678)");
     end else begin
       $display("Test Case 2 Failed: lw x2, 4(x0)");
       $display("Expected: x2 = 0x12345678, Actual: x%0d = 0x%h (enable=%b)", wb_a, wb_d, wb_e);
@@ -65,17 +65,13 @@ module riscv_pipeline_tb;
     // --- Test Case 3: Load word from address 0xC (offset 8, rs1 = 4) ---
     // lw x3, 8(x1) - Assuming x1 now holds 0x4
     // rd = x3 (register 3), rs1 = x1 (register 1), imm = 8
-    #(CLK_PERIOD);  // Wait for instruction to enter pipeline
-
-    #(CLK_PERIOD * 4);  // Wait for the instruction to complete
-
     // Check the result (assuming register x3 should now hold the value from memory address 0x4 + 0x8 = 0xC)
     // The value at memory address 0xC is FEDCBA98 (from simple_memory.sv initial block)
     $display("Time %0t", $time);
     if (wb_e && wb_a == 5'd3 && wb_d == 32'hFEDCBA98) begin  // Corrected expected value
-      $display("Test Case 3 Passed: lw x3, 8(x1)");
+      $display("Test Case 3 Passed: lw x3, 8(x1) (hFEDCBA98)");
     end else begin
-      $display("Test Case 3 Failed: lw x3, 8(x1)");
+      $display("Test Case 3 Failed: lw x3, 8(x1) (hFEDCBA98)");
       $display("Expected: x3 = 0xFEDCBA98, Actual: x%0d = 0x%h (enable=%b)", wb_a, wb_d, wb_e);
     end
     #(CLK_PERIOD);  // Wait one more cycle
