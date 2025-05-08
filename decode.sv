@@ -8,7 +8,7 @@ module decode (
     input  logic             write_back_enable,
     input  logic             pc_r,
     output de_to_ex_s        de_to_ex,
-    output logic      [31:0] regs             [32]
+    input  logic             dump
 );
 
   de_to_ex_s de_to_ex_reg;
@@ -44,7 +44,7 @@ module decode (
       // outp
       .d1  (rs1_val),
       .d2  (rs2_val),
-      .regs(regs)
+      .dump(dump)
   );
 
   // will be output

@@ -9,7 +9,7 @@ module riscv_pipeline_tb;
   logic [31:0] wb_d;
   logic [31:0] pc_out;
   logic wb_e;
-  logic [31:0] regs[32];
+  logic dump;
 
   riscv_pipeline dut (
       .clk(clk),
@@ -19,7 +19,7 @@ module riscv_pipeline_tb;
       .wb_e(wb_e),
       .pc_out(pc_out),
       .wb_d(wb_d),
-      .regs(regs)
+      .dump(dump)
   );
 
   parameter CLK_PERIOD = 10;
@@ -35,6 +35,7 @@ module riscv_pipeline_tb;
     $dumpvars(0, riscv_pipeline_tb);
 
     reset = 1;
+    dump  = 0;
     #(CLK_PERIOD * 2);  // Hold reset for a few clock cycles
     reset = 0;
 
@@ -48,16 +49,15 @@ module riscv_pipeline_tb;
     // Wait 4 clock cycles for the instruction to complete all stages
     #(CLK_PERIOD * 4);
 
-    $display("--- Displaying data_array contents at time %0t ---", $time);
-    for (int i = 0; i < 32; i = i + 1) begin
-      $display("reg[%0d] = %h", i, regs[i]);
-    end
-    $display("----------------------------------------------------");
-
+    dump = 1;
+    #(CLK_PERIOD);
 
     $finish;
 
+
+    /////////////////////////
     // FURTHER is TEST 1
+    /////////////////////////
 
     // --- Test Case 1: Load word from address 0x0 (offset 0, rs1 = 0) ---
     // lw x1, 0(x0)

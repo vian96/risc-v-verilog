@@ -9,14 +9,21 @@ module reg_file (
     input  logic [31:0] wd,
     output logic [31:0] d1,
     output logic [31:0] d2,
-    output logic [31:0] regs[32]
+    input  logic        dump
 );
 
   logic [31:0] registers[32];
-  assign regs = registers;
 
-  assign d1   = (a1 != 0) ? registers[a1] : 32'b0;
-  assign d2   = (a2 != 0) ? registers[a2] : 32'b0;
+  assign d1 = (a1 != 0) ? registers[a1] : 32'b0;
+  assign d2 = (a2 != 0) ? registers[a2] : 32'b0;
+
+  always_ff @(posedge dump) begin
+    $display("--- Displaying regs at %0t ---", $time);
+    for (int i = 0; i < 32; i = i + 1) begin
+      $display("reg[%0d] = %d", i, registers[i]);
+    end
+    $display("----------------------------------------------------");
+  end
 
   always_ff @(posedge clk) begin
     $display(

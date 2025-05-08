@@ -8,7 +8,7 @@ module riscv_pipeline (
     output logic [ 4:0] wb_a,
     output logic [31:0] wb_d,
     output logic [31:0] pc_out,
-    output logic [31:0] regs   [32]
+    input  logic        dump
 );
 
   fe_to_de_s         fe_to_de_wire;
@@ -68,7 +68,7 @@ module riscv_pipeline (
       .write_back_data(wb_data_wire),
       .write_back_enable(wb_en_wire),
       .de_to_ex(de_to_ex_wire),
-      .regs(regs)
+      .dump(dump)
   );
 
   execute execute_inst (
