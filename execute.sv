@@ -45,7 +45,7 @@ module execute (
 
   always_ff @(posedge clk) begin
     $display(
-        "Time %0t:  Execute -> in1 = 0x%h, in2 = 0x%h, out = 0x%h, use_imm = 0x%h, rd = %d, aluop = %d, rs1s = %b, bp_mem = 0x%h, bp_wb = 0x%h",
+        "Time %0t: \033[31m Execute \033[0m -> in1 = 0x%h, in2 = 0x%h, out = 0x%h, use_imm = 0x%h, rd = %d, aluop = %d, rs1s = %b, bp_mem = 0x%h, bp_wb = 0x%h",
         $time, alu_in1, alu_in2, alu_result_wire, de_to_ex.use_imm, de_to_ex.rd, de_to_ex.alu_op,
         rs1s, bp_mem, bp_wb);
 
