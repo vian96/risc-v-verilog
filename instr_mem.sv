@@ -20,14 +20,18 @@ module instr_mem (
   // TEST 2: BLT, BEQ, TEST 1
   // Initial instructions
   initial begin
-    mem[0] = 32'h05002083;  // lw   x1, 80(x0)   // Load word into x1 from address 80
-    mem[1] = 32'h05402103;  // lw   x2, 84(x0)   // Load word into x2 from address 84
-    mem[2] = 32'h04C00393;  // addi x7, x0, 76  // Set x7 to 76
+    mem[0] = 32'h05002083;  // lw   x1, 80(x0)
+    mem[1] = 32'h05402103;  // lw   x2, 84(x0)
+    mem[2] = 32'h04C00393;  // addi x7, x0, 76
     mem[3] = 32'h00c3a183;  // lw   x3, 12(x7)   // Load word into x3 from address 12 + x7 (76) = 88
 
     // Added instructions for branching tests (starts at address 16 / mem[4])
-    mem[4] = 32'h00500213;  // addi x4, x0, 5    // Set x4 to 5
-    mem[5] = 32'h00a00293;  // addi x5, x0, 10   // Set x5 to 10
+    // TESTS 2.1, 2.2
+    //mem[4] = 32'h00500213;  // addi x4, x0, 5
+    //mem[5] = 32'h00a00293;  // addi x5, x0, 10
+    // TEST 2.3
+    mem[4] = 32'h00a00213;  // addi x4, x0, 10
+    mem[5] = 32'h00500293;  // addi x5, x0, 5
 
     // Test BEQ
     // If x1 == x2, branch to address 24 + 20 = 44 (mem[11])
@@ -67,11 +71,6 @@ module instr_mem (
     mem[17] = 32'h00000013;  // NOP
     mem[18] = 32'h00000013;  // NOP
     mem[19] = 32'h00000013;  // NOP
-
-    // Data section (starts at address 80 / mem[20])
-    mem[20] = 32'h00000005;  // Data for lw x1 (value 5)
-    mem[21] = 32'h00000005; // Data for lw x2 (value 5) - Set to 5 to trigger the BEQ branch initially
-    mem[22] = 32'h00000014;  // Data for lw x3 (value 20)
   end
 
   always @(posedge clk) begin
