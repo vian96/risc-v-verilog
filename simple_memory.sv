@@ -29,7 +29,10 @@ module simple_memory (
     // TEST 3
     // It will be overwritten by the SW instruction.
     // This is the memory location at address 120 (0x78) / mem[30].
-    mem[30] = 32'hFFFFFFFF;  // Initial value at address 120.
+    mem[30] = 32'hFFFFFFFF;
+
+    // TEST 4
+    mem[32] = 32'hAB0BAB0B;  // address 128
   end
 
   always @(posedge clk) begin
