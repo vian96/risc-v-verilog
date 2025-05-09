@@ -29,10 +29,6 @@ module riscv_pipeline_tb;
   end
 
   initial begin
-    // Dump waveforms
-    $dumpfile("riscv_load_dump.vcd");
-    // Dump all variables in the testbench scope // TODO: what for?
-    $dumpvars(0, riscv_pipeline_tb);
 
     reset = 1;
     dump  = 0;
@@ -40,7 +36,7 @@ module riscv_pipeline_tb;
     reset = 0;
 
     // For tests 2 (52), 3(140), 4(12), 5(20), 6(30)
-    while (pc_out < 30 && $time < 2000) begin
+    while (pc_out < 52 && $time < 2000) begin
       #(CLK_PERIOD);
       $display("Time: %0t, FLAGpc_out: %0d", $time, pc_out);
     end

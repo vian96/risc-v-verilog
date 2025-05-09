@@ -14,7 +14,7 @@ module reg_file (
 
   logic [31:0] registers[32];
 
-  // TODO: KOSTYL
+  // TODO: KOSTYL?
   assign d1 = (a1 != 0) ? ((a1 != a3) ? registers[a1] : wd) : 32'b0;
   assign d2 = (a2 != 0) ? ((a2 != a3) ? registers[a2] : wd) : 32'b0;
 

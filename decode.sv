@@ -50,7 +50,7 @@ module decode (
   );
 
   // will be output
-  logic        [31:0] next_immediate_sext;
+  logic        [31:0] sext_imm;
   alu_op_e            next_alu_op;
   logic               next_mem_write;
   logic               next_mem_read;
@@ -108,29 +108,11 @@ module decode (
   assign use_pc = (instr_type == B_TYPE) ? 1'b1 : (instr_type == J_TYPE) ? 1'b1 : 1'b0;
   assign is_jump = (instr_type == J_TYPE) ? 1'b1 : (opcode == 7'b1100111) ? 1'b1 : 1'b0;
 
-  //// IMMEDIATE UNIT
-  // TODO: move to separate module and diferent stage
-
-  // Calculate and sign-extend immediate value based on instruction type
-  logic [11:0] imm_i;  // For I-type (LD, JALR)
-  logic [11:0] imm_s;  // For S-type (SD)
-  logic [12:0] imm_b;  // For B-type (BEQ)
-  logic [20:0] imm_j;  // For J-type (JAL)
-
-  // Extract raw immediate bits
-  assign imm_i = instruction[31:20];
-  assign imm_s = {instruction[31:25], instruction[11:7]};
-  assign imm_b = {instruction[31], instruction[7], instruction[30:25], instruction[11:8], 1'b0};
-  assign imm_j = {instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0};
-
-
-  // Sign-extend the correct immediate based on opcode
-  assign next_immediate_sext = (instr_type == I_TYPE) ? {{20{imm_i[11]}}, imm_i} :
-      (instr_type == S_TYPE) ? {{20{imm_s[11]}}, imm_s} :
-      (instr_type == I_TYPE) ? {{20{imm_i[11]}}, imm_i} :
-      (instr_type == B_TYPE) ? {{19{imm_b[12]}}, imm_b} :
-      (instr_type == J_TYPE) ? {{11{imm_j[20]}}, imm_j} :
-      32'b0;
+  imm imm_inst (
+      .instr_type(instr_type),
+      .instruction(instruction[31:7]),
+      .sext_imm(sext_imm)
+  );
 
   always_ff @(posedge clk or posedge reset) begin
     $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d, en %d", $time, de_to_ex_reg.v_de,
@@ -148,7 +130,7 @@ module decode (
       de_to_ex_reg.rs2                   <= rs2;
       de_to_ex_reg.funct3                <= funct3;
 
-      de_to_ex_reg.immediate_sext        <= next_immediate_sext;
+      de_to_ex_reg.immediate_sext        <= sext_imm;
       de_to_ex_reg.instruction_bits_30_7 <= instruction[30:7];
 
       de_to_ex_reg.alu_op                <= next_alu_op;
