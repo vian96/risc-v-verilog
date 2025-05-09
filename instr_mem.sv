@@ -10,15 +10,29 @@ module instr_mem (
   reg [31:0] mem[255];
 
   initial begin
-    $display("TEST 5 lw after lw");
-    $display("Exptected: x1 = 0xCEC0CEC0");
-    mem[0] = 32'h08802083;  // lw x1, 136(x0)
-    mem[1] = 32'h0240a083;  // lw x1, 36(x1) x1=[[136]+36]=[160]=92
-    mem[2] = 32'h05c0a083;  // lw x1, 92(x1) x1=[92+92]=[184]=0xCEC0CEC0
-    mem[3] = 32'h00000013;  // NOP
-    mem[4] = 32'h00000013;  // NOP
+    $display("TEST 6 addi, lw, addi");
+    $display("Exptected: x1=1, x2=2, x3=0, x4=4");
+    mem[0] = 32'h00100093;  // addi x1, x0, 1
+    mem[1] = 32'h00200113;  // addi x2, x0, 2
+    mem[2] = 32'h0020c463;  // blt x1, x2, 8
+    mem[3] = 32'h00300193;  // addi x3, x0, 3 - should NOT run
+    mem[4] = 32'h00400213;  // addi x4, x0, 4
     mem[5] = 32'h00000013;  // NOP
+    mem[6] = 32'h00000013;  // NOP
+    mem[7] = 32'h00000013;  // NOP
+    mem[8] = 32'h00000013;  // NOP
   end
+
+  //initial begin
+  //  $display("TEST 5 lw after lw");
+  //  $display("Exptected: x1 = 0xCEC0CEC0");
+  //  mem[0] = 32'h08802083;  // lw x1, 136(x0)
+  //  mem[1] = 32'h0240a083;  // lw x1, 36(x1) x1=[[136]+36]=[160]=92
+  //  mem[2] = 32'h05c0a083;  // lw x1, 92(x1) x1=[92+92]=[184]=0xCEC0CEC0
+  //  mem[3] = 32'h00000013;  // NOP
+  //  mem[4] = 32'h00000013;  // NOP
+  //  mem[5] = 32'h00000013;  // NOP
+  //end
 
   //initial begin
   //  $display("TEST 4 use after lw");
