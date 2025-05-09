@@ -13,8 +13,8 @@ module instr_mem (
     $display("TEST 5 lw after lw");
     $display("Exptected: x1 = 0xCEC0CEC0");
     mem[0] = 32'h08802083;  // lw x1, 136(x0)
-    mem[1] = 32'h0240a083;  // lw x1, 36(x1) x1=[[136]+36]=[196]=0xCEC0CEC0
-    mem[2] = 32'h00000013;  // NOP
+    mem[1] = 32'h0240a083;  // lw x1, 36(x1) x1=[[136]+36]=[160]=92
+    mem[2] = 32'h05c0a083;  // lw x1, 92(x1) x1=[92+92]=[184]=0xCEC0CEC0
     mem[3] = 32'h00000013;  // NOP
     mem[4] = 32'h00000013;  // NOP
     mem[5] = 32'h00000013;  // NOP

@@ -37,7 +37,8 @@ module simple_memory (
 
     // TEST 5
     mem[34] = 32'h7c;  // 124+36=160=mem[40]
-    mem[40] = 32'hCEC0CEC0;
+    mem[40] = 32'h5c;  // 92+92=184=mem[46]
+    mem[46] = 32'hCEC0CEC0;
   end
 
   always @(posedge clk) begin
