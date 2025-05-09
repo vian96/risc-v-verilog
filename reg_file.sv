@@ -21,7 +21,7 @@ module reg_file (
   always_ff @(posedge dump) begin
     $display("--- Displaying regs at %0t ---", $time);
     for (int i = 0; i < 32; i = i + 1) begin
-      $display("reg[%0d] = %d", i, registers[i]);
+      $display("reg[%0d] = 0x%h", i, registers[i]);
     end
     $display("----------------------------------------------------");
   end

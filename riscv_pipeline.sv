@@ -28,24 +28,16 @@ module riscv_pipeline (
   hu_src_e           rs1s;
   hu_src_e           rs2s;
 
-  hu hu1 (
+  hu hu_inst (
       .clk(clk),
-      .ex_rs(de_to_ex_wire.rs1),
+      .ex_rs1(de_to_ex_wire.rs1),
+      .ex_rs2(de_to_ex_wire.rs2),
       .mem_we(ex_to_mem_wire.reg_write),
       .wb_we(mem_to_wb_wire.reg_write),
       .mem_rd(ex_to_mem_wire.rd),
       .wb_rd(mem_to_wb_wire.rd),
-      .src(rs1s)
-  );
-
-  hu hu2 (
-      .clk(clk),
-      .ex_rs(de_to_ex_wire.rs2),
-      .mem_we(ex_to_mem_wire.reg_write),
-      .wb_we(mem_to_wb_wire.reg_write),
-      .mem_rd(ex_to_mem_wire.rd),
-      .wb_rd(mem_to_wb_wire.rd),
-      .src(rs2s)
+      .src1(rs1s),
+      .src2(rs2s)
   );
 
   // Main modules

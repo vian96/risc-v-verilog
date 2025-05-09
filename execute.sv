@@ -44,7 +44,7 @@ module execute (
 
   assign alu_in2  = (de_to_ex.use_imm) ? de_to_ex.immediate_sext : rs2_val;
 
-  assign pc_reset = cmp_res && de_to_ex.use_pc || de_to_ex.is_jump;
+  assign pc_reset = de_to_ex.v_de && (cmp_res && de_to_ex.use_pc || de_to_ex.is_jump);
   assign pc_exec  = alu_result_wire;
 
   always_ff @(posedge clk) begin
