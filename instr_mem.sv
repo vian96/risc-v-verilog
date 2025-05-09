@@ -10,14 +10,14 @@ module instr_mem (
   reg [31:0] mem[255];
 
   initial begin
-    $display("TEST 6 addi, lw, addi");
-    $display("Exptected: x1=1, x2=2, x3=0, x4=4");
+    $display("TEST 6 addi, lw, addi, sub");
+    $display("Exptected: x1=1, x2=2, x3=0, x4=4, x5=2");
     mem[0] = 32'h00100093;  // addi x1, x0, 1
     mem[1] = 32'h00200113;  // addi x2, x0, 2
     mem[2] = 32'h0020c463;  // blt x1, x2, 8
     mem[3] = 32'h00300193;  // addi x3, x0, 3 - should NOT run
     mem[4] = 32'h00400213;  // addi x4, x0, 4
-    mem[5] = 32'h00000013;  // NOP
+    mem[5] = 32'h401182b3;  // sub x5, x3, x1
     mem[6] = 32'h00000013;  // NOP
     mem[7] = 32'h00000013;  // NOP
     mem[8] = 32'h00000013;  // NOP

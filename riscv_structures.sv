@@ -25,6 +25,7 @@ typedef struct packed {
 
 typedef enum logic [4:0] {
   ALU_ADD,  // Addition (for ADD, LD, SD, JALR, JAL, AUIPC)
+  ALU_SUB,
   ALU_INVALID
 } alu_op_e;
 

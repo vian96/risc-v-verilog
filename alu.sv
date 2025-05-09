@@ -7,7 +7,7 @@ module alu (
     output logic    [31:0] result
 );
 
-  assign result = (alu_op == ALU_ADD) ? in1 + in2 : 0;
+  assign result = (alu_op == ALU_ADD) ? in1 + in2 : (alu_op == ALU_SUB) ? in1 - in2 : 0;
 
 endmodule
 

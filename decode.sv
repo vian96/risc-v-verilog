@@ -93,6 +93,7 @@ module decode (
       (instr_type == B_TYPE) ? ALU_ADD :  // branches
       (opcode == 7'b0110011 && funct3 == 3'b000 && funct7 == 7'b0000000) ? ALU_ADD :  // ADD
       (opcode == 7'b0010011 && funct3 == 3'b000) ? ALU_ADD :  // ADDI
+      (opcode == 7'b0110011 && funct3 == 0 && funct7 == 7'b0100000) ? ALU_SUB :  // SUB
       (opcode == 7'b0000011) ? ALU_ADD :  // LD (calculate address)
       (opcode == 7'b1100111) ? ALU_ADD :  // JALR (calculate target address)
       ALU_INVALID;  // For any other instruction
