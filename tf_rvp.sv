@@ -36,11 +36,11 @@ module riscv_pipeline_tb;
 
     reset = 1;
     dump  = 0;
-    #(CLK_PERIOD * 2);  // Hold reset for a few clock cycles
+    #(CLK_PERIOD * 20);  // Hold reset for a few clock cycles
     reset = 0;
 
     // For tests 2 (52), 3(140), 4(12)
-    while (pc_out < 52) begin
+    while (pc_out < 12 && $time < 2000) begin
       #(CLK_PERIOD);
       $display("Time: %0t, FLAGpc_out: %0d", $time, pc_out);
     end

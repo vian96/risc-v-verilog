@@ -19,9 +19,10 @@ module memory (
       .write_enable(ex_to_mem.mem_write)
   );
 
-  // TODO: is it ok that it can give address instead of rd data?
-
   always_ff @(posedge clk) begin
+    $display(
+        "Time %0t: \033[34m Memory Input \033[0m -> Address = 0x%h, val = 0x%h; regwe %d, rd %d",
+        $time, ex_to_mem.alu_result, data_mem_read_data_wire, ex_to_mem.reg_write, ex_to_mem.rd);
     mem_to_wb_reg.data <= ex_to_mem.mem_read ? data_mem_read_data_wire : ex_to_mem.alu_result;
 
     mem_to_wb_reg.reg_write <= ex_to_mem.reg_write;

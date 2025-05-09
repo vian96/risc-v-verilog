@@ -8,7 +8,8 @@ module decode (
     input  logic             write_back_enable,
     input  logic             pc_r,
     output de_to_ex_s        de_to_ex,
-    input  logic             dump
+    input  logic             dump,
+    input  logic             en
 );
 
   de_to_ex_s de_to_ex_reg;
@@ -130,30 +131,33 @@ module decode (
       32'b0;
 
   always_ff @(posedge clk) begin
-    $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d", $time, !(pc_r || fe_to_de.pc_r),
-             pc_r, fe_to_de.pc_r);
+    $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d, en %d", $time, de_to_ex_reg.v_de,
+             pc_r, fe_to_de.pc_r, en);
 
+    if (en) begin
+      de_to_ex_reg.pc_value              <= fe_to_de.pc_value;
+      de_to_ex_reg.rs1_data              <= rs1_val;
+      de_to_ex_reg.rs2_data              <= rs2_val;
+      de_to_ex_reg.rd                    <= rd;
+      de_to_ex_reg.rs1                   <= rs1;
+      de_to_ex_reg.rs2                   <= rs2;
+      de_to_ex_reg.funct3                <= funct3;
 
-    de_to_ex_reg.pc_value              <= fe_to_de.pc_value;
-    de_to_ex_reg.rs1_data              <= rs1_val;
-    de_to_ex_reg.rs2_data              <= rs2_val;
-    de_to_ex_reg.rd                    <= rd;
-    de_to_ex_reg.rs1                   <= rs1;
-    de_to_ex_reg.rs2                   <= rs2;
-    de_to_ex_reg.funct3                <= funct3;
+      de_to_ex_reg.immediate_sext        <= next_immediate_sext;
+      de_to_ex_reg.instruction_bits_30_7 <= instruction[30:7];
 
-    de_to_ex_reg.immediate_sext        <= next_immediate_sext;
-    de_to_ex_reg.instruction_bits_30_7 <= instruction[30:7];
+      de_to_ex_reg.alu_op                <= next_alu_op;
+      de_to_ex_reg.mem_write             <= next_mem_write;
+      de_to_ex_reg.reg_write             <= next_reg_write;
+      de_to_ex_reg.mem_read              <= next_mem_read;
+      de_to_ex_reg.use_imm               <= use_imm;
+      de_to_ex_reg.use_pc                <= use_pc;
+      de_to_ex_reg.is_jump               <= is_jump;
 
-    de_to_ex_reg.alu_op                <= next_alu_op;
-    de_to_ex_reg.mem_write             <= next_mem_write;
-    de_to_ex_reg.reg_write             <= next_reg_write;
-    de_to_ex_reg.mem_read              <= next_mem_read;
-    de_to_ex_reg.use_imm               <= use_imm;
-    de_to_ex_reg.use_pc                <= use_pc;
-    de_to_ex_reg.is_jump               <= is_jump;
-
-    de_to_ex_reg.v_de                  <= !(pc_r || fe_to_de.pc_r);
+      de_to_ex_reg.v_de                  <= !(pc_r || fe_to_de.pc_r);
+    end else begin
+      de_to_ex_reg.mem_read <= 0;  // for backward loop at start
+    end
   end
 
 endmodule
