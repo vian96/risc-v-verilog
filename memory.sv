@@ -19,6 +19,8 @@ module memory (
       .write_enable(ex_to_mem.mem_write)
   );
 
+  // TODO: is it ok that it can give address instead of rd data?
+
   always_ff @(posedge clk) begin
     mem_to_wb_reg.data <= ex_to_mem.mem_read ? data_mem_read_data_wire : ex_to_mem.alu_result;
 

@@ -58,6 +58,7 @@ module decode (
   logic               is_jump;
 
   //// CONTROL UNIT
+  // TODO: move to separate module
 
   instr_type_e        instr_type;
 
@@ -105,6 +106,7 @@ module decode (
   assign is_jump = (instr_type == J_TYPE) ? 1'b1 : (opcode == 7'b1100111) ? 1'b1 : 1'b0;
 
   //// IMMEDIATE UNIT
+  // TODO: move to separate module and diferent stage
 
   // Calculate and sign-extend immediate value based on instruction type
   logic [11:0] imm_i;  // For I-type (LD, JALR)

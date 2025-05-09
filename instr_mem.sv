@@ -14,7 +14,7 @@ module instr_mem (
     // We will store the value 123 into memory address 120 (0x78), then load it back to verify.
     mem[0] = 32'h00000513;  // addi x10, x0, 0
     mem[1] = 32'h07B00593;  // addi x11, x0, 123
-    mem[2] = 32'h06b52c23; // sw   x11, 120(x10)  // Store x11 (123) to mem[x10 + 120] (Address 120, mem[30])
+    mem[2] = 32'h06b52c23;  // sw   x11, 120(x10)  // Store x11 (123) to mem[x10 + 120] (Address 120, mem[30])
     mem[3] = 32'h07802503;  // lw   x10, 120(x0)   // Load value from address 120 into x10.
                             // Expected: x10 should be 123 after this instruction.
 
