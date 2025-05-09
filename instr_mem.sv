@@ -10,15 +10,26 @@ module instr_mem (
   reg [31:0] mem[255];
 
   initial begin
-    $display("TEST 4 use after lw");
-    $display("Exptected: x2 == x1, not x2 == 128");
-    mem[0] = 32'h08002083;  // lw x1, 128(x0)
-    mem[1] = 32'h00008133;  // add x2, x1, x0
+    $display("TEST 5 lw after lw");
+    $display("Exptected: x1 = 0xCEC0CEC0");
+    mem[0] = 32'h08802083;  // lw x1, 136(x0)
+    mem[1] = 32'h0240a083;  // lw x1, 36(x1) x1=[[136]+36]=[196]=0xCEC0CEC0
     mem[2] = 32'h00000013;  // NOP
     mem[3] = 32'h00000013;  // NOP
     mem[4] = 32'h00000013;  // NOP
     mem[5] = 32'h00000013;  // NOP
   end
+
+  //initial begin
+  //  $display("TEST 4 use after lw");
+  //  $display("Exptected: x2 == x1, not x2 == 128");
+  //  mem[0] = 32'h08002083;  // lw x1, 128(x0)
+  //  mem[1] = 32'h00008133;  // add x2, x1, x0
+  //  mem[2] = 32'h00000013;  // NOP
+  //  mem[3] = 32'h00000013;  // NOP
+  //  mem[4] = 32'h00000013;  // NOP
+  //  mem[5] = 32'h00000013;  // NOP
+  //end
 
   //initial begin
   //  $display("TEST 3: JAL, JALR, SW + test1,2");

@@ -65,6 +65,7 @@ module riscv_pipeline (
       .write_back_enable(wb_en_wire),
       .de_to_ex(de_to_ex_wire),
       .dump(dump),
+      .reset(reset),
       .en(~stall)
   );
 

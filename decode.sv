@@ -9,6 +9,7 @@ module decode (
     input  logic             pc_r,
     output de_to_ex_s        de_to_ex,
     input  logic             dump,
+    input  logic             reset,
     input  logic             en
 );
 
@@ -130,11 +131,14 @@ module decode (
       (instr_type == J_TYPE) ? {{11{imm_j[20]}}, imm_j} :
       32'b0;
 
-  always_ff @(posedge clk) begin
+  always_ff @(posedge clk or posedge reset) begin
     $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d, en %d", $time, de_to_ex_reg.v_de,
              pc_r, fe_to_de.pc_r, en);
 
-    if (en) begin
+    if (reset) begin
+      de_to_ex_reg.mem_read <= 0;  // for backward loop at start
+      de_to_ex_reg.v_de     <= 0;
+    end else if (en) begin
       de_to_ex_reg.pc_value              <= fe_to_de.pc_value;
       de_to_ex_reg.rs1_data              <= rs1_val;
       de_to_ex_reg.rs2_data              <= rs2_val;
@@ -155,8 +159,6 @@ module decode (
       de_to_ex_reg.is_jump               <= is_jump;
 
       de_to_ex_reg.v_de                  <= !(pc_r || fe_to_de.pc_r);
-    end else begin
-      de_to_ex_reg.mem_read <= 0;  // for backward loop at start
     end
   end
 
