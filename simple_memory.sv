@@ -20,10 +20,7 @@ module simple_memory (
 
     // FOR TEST 2
     mem[20] = 32'h00000005;  // Data for lw x1 (value 5)
-    // 2.1
-    //mem[21] = 32'h00000005; // Data for lw x2 (value 5) - Set to 5 to trigger the BEQ branch initially
-    // 2.2, 2.3
-    mem[21] = 32'h0000000A; // Data for lw x2 (value 5) - Set to 5 to trigger the BEQ branch initially
+    mem[21] = 32'h0000000A; // Data for lw x2 (value 5) - Set to 10 to untrigger the BEQ branch initially
 
     mem[22] = 32'h00000014;  // Data for lw x3 (value 20)
 

@@ -1,0 +1,2 @@
+TEST 1: lw, addi, HU forwarding
+x1=[0]=DEADBEEF, x2=[4]=12345678, x7=4, x3=mem[12]=FEDCBA98

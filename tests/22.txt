@@ -1,0 +1,3 @@
+TEST 2: BLT taken, BEQ not taken, TEST 1
+Exptected: x1=5, x2=10, x3=20, x4=5, x5=10, x6=1, x7=76, x8=200, x9=0
+

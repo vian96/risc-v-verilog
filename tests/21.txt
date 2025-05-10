@@ -1,0 +1,3 @@
+TEST 2.1: BLT ignored, BEQ taken, +test 1
+Exptected: x1=5, x2=5, x3=20, x4=5, x5=10, x6=100, x7=76, x8=200, x9=0
+

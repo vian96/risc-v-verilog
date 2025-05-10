@@ -2,13 +2,8 @@
 	.option norelax
 
 _start:
-	lw x1, 136(x0)
-	lw x1, 36(x1) ;#// x1=[[136]+36]=[160]=92
-	lw x1, 92(x1) ;#// x1=[92+92]=[184]=0xCEC0CEC0
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
+	lw x1, 0(x0)
+	lw x2, 4(x0)
+	addi x7, x0, 4
+	lw x3, 8(x7)
 
