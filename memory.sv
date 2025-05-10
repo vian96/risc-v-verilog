@@ -15,7 +15,7 @@ module memory (
       .clk         (clk),
       .address     (ex_to_mem.alu_result),
       .read_data   (data_mem_read_data_wire),
-      .write_data  (ex_to_mem.write_data),
+      .write_data  (ex_to_mem.mem_data),
       .write_enable(ex_to_mem.mem_write)
   );
 
