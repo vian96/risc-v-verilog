@@ -54,7 +54,7 @@ typedef struct packed {
 
 typedef struct packed {
   logic [31:0] alu_result;
-  logic [31:0] write_data;
+  logic [31:0] mem_data;
 
   // control signals
   logic       mem_write;

@@ -39,7 +39,7 @@ module cu (
   assign alu_op = (instr_type == S_TYPE) ? ALU_ADD :  // stores
       (instr_type == J_TYPE) ? ALU_ADD :  // JAL (calculate target address)
       (opcode == 7'b1100111) ? ALU_ADD :  // JALR (calculate target address)
-      (instr_type == B_TYPE) ? ALU_ADD :  // branches
+      (instr_type == B_TYPE) ? ALU_INVALID :  // branches
       (opcode == 7'b0110011 && funct3 == 0 && funct7 == 7'b0100000) ? ALU_SUB :  // SUB
       (opcode == 7'b0110011 && funct3 == 3'b000 && funct7 == 7'b0000000) ? ALU_ADD :  // ADD
       (opcode == 7'b0010011 && funct3 == 3'b000) ? ALU_ADD :  // ADDI

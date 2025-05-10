@@ -13,24 +13,23 @@ module simple_memory (
 
   initial begin
     // FOR TEST 1
-    mem[0] = 32'hDEADBEEF;
-    mem[1] = 32'h12345678;
-    mem[2] = 32'hABCDEF01;
-    mem[3] = 32'hFEDCBA98;
+    mem[0]  = 32'hDEADBEEF;
+    mem[1]  = 32'h12345678;
+    mem[2]  = 32'hABCDEF01;
+    mem[3]  = 32'hFEDCBA98;
 
     // FOR TEST 2
-    mem[20] = 32'h00000005;  // Data for lw x1 (value 5)
-    mem[21] = 32'h0000000A; // Data for lw x2 (value 5) - Set to 10 to untrigger the BEQ branch initially
+    mem[20] = 32'h00000005;
+    mem[21] = 32'h0000000A;
 
-    mem[22] = 32'h00000014;  // Data for lw x3 (value 20)
+    mem[22] = 32'h00000014;
 
     // TEST 3
     // It will be overwritten by the SW instruction.
-    // This is the memory location at address 120 (0x78) / mem[30].
     mem[30] = 32'hFFFFFFFF;
 
     // TEST 4
-    mem[32] = 32'hAB0BAB0B;  // address 128
+    mem[32] = 32'hAB0BAB0B;
 
     // TEST 5
     mem[34] = 32'h7c;  // 124+36=160=mem[40]

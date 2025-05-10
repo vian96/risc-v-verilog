@@ -6,10 +6,10 @@ module imm (
     output logic [31:0] sext_imm
 );
 
-  logic [11:0] imm_i;  // LD, JALR
-  logic [11:0] imm_s;  // SD
-  logic [12:0] imm_b;  // BEQ
-  logic [20:0] imm_j;  // JAL
+  logic [11:0] imm_i;
+  logic [11:0] imm_s;
+  logic [12:0] imm_b;
+  logic [20:0] imm_j;
 
   assign imm_i = instruction[31:20];
   assign imm_s = {instruction[31:25], instruction[11:7]};
