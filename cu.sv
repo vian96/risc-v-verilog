@@ -48,7 +48,7 @@ module cu (
 
   assign use_imm = (instr_type == I_TYPE) ? 1'b1 :
       (instr_type == J_TYPE) ? 1'b1 :
-      (instr_type == B_TYPE) ? 1'b0 : // it's added in summator, not alu
+      (instr_type == B_TYPE) ? 1'b0 : // it's added in summator, alu uses rses
       (instr_type == S_TYPE) ? 1'b1 : 1'b0;
 
   assign is_branch = (instr_type == B_TYPE) ? 1'b1 : 1'b0;

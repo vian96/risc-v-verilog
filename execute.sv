@@ -22,21 +22,15 @@ module execute (
   logic [31:0] rs1_val;
   logic [31:0] rs2_val;
   logic [31:0] alu_result_wire;
+  logic cmp_res;
 
   alu alu_inst (
       .in1(alu_in1),
       .in2(alu_in2),
       .alu_op(de_to_ex.alu_op),
-      .result(alu_result_wire)
-  );
-
-  logic cmp_res;
-
-  compare ex_cmp (
-      .in1(rs1_val),
-      .in2(rs2_val),
       .funct3(de_to_ex.funct3),
-      .cond(cmp_res)
+      .cond(cmp_res),
+      .result(alu_result_wire)
   );
 
   assign rs1_val = (rs1s == MEM) ? bp_mem : (rs1s == WB) ? bp_wb : de_to_ex.rs1_val;
