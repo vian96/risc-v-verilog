@@ -43,7 +43,7 @@ module execute (
   assign rs2_val = (rs2s == MEM) ? bp_mem : (rs2s == WB) ? bp_wb : de_to_ex.rs2_val;
 
   assign alu_in1 = (de_to_ex.is_jump) ? de_to_ex.pc_value : rs1_val;
-  assign alu_in2 = (de_to_ex.use_imm) ? de_to_ex.sext_imm : rs2_val;
+  assign alu_in2 = (de_to_ex.is_jump) ? 32'd4 : (de_to_ex.use_imm) ? de_to_ex.sext_imm : rs2_val;
 
   // summator of target pc
   logic [31:0] sum1;

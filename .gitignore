@@ -1,1 +1,3 @@
 .nvim/
+build/
+simulation_riscv

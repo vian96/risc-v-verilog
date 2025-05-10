@@ -1,0 +1,2 @@
+TEST 5 lw after lw after lw
+Exptected: x1 = 0xCEC0CEC0
