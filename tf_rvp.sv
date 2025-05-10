@@ -1,6 +1,6 @@
 /* verilator lint_off STMTDLY */  // delay warnings
 
-module riscv_pipeline_tb;
+module tf_rvp;
 
   logic clk;
   logic reset;
@@ -25,7 +25,9 @@ module riscv_pipeline_tb;
   parameter CLK_PERIOD = 10;
   initial begin
     clk = 0;
+    // verilator lint_off INFINITELOOP
     forever #(CLK_PERIOD / 2) clk = ~clk;
+    // verilator lint_on INFINITELOOP
   end
 
   initial begin

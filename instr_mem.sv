@@ -189,7 +189,9 @@ module instr_mem (
              address, read_data);
   end
 
+  // verilator lint_off WIDTH
   assign read_data = mem[address[31:2]];
+  // verilator lint_on WIDTH
 
 endmodule
 

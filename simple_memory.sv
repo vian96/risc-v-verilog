@@ -41,10 +41,12 @@ module simple_memory (
     mem[46] = 32'hCEC0CEC0;
   end
 
+  // verilator lint_off WIDTH
   always @(posedge clk) begin
     if (write_enable) mem[address[31:2]] <= write_data;
   end
 
   assign read_data = mem[address[31:2]];
+  // verilator lint_on WIDTH
 
 endmodule
