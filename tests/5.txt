@@ -1,2 +1,2 @@
-TEST 5 lw after lw after lw
+TEST 5 lw after lw after lw (HU stalls)
 Exptected: x1 = 0xCEC0CEC0
