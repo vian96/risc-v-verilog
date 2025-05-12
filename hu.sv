@@ -15,7 +15,6 @@ module hu (
 );
 
   always_ff @(posedge clk) begin
-    //if (0)
     $display("Time %0t:  HAZARD UNIT memwe %d wbwe %d rs1 %d rs2 %d memrd %d wbrd %d wblw %d",
              $time, mem_we, wb_we, ex_rs1, ex_rs2, mem_rd, wb_rd, wb_lw);
   end

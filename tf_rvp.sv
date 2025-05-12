@@ -35,7 +35,7 @@ module tf_rvp;
 
     reset = 1;
     dump  = 0;
-    #(CLK_PERIOD * 20);  // Hold reset for a few clock cycles
+    #(CLK_PERIOD * 5);  // Hold reset for a few clock cycles
     reset = 0;
 
     while (pc_out < 150 && $time < 2000) begin

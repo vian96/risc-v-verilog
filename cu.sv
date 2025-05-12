@@ -17,13 +17,12 @@ module cu (
 );
 
   assign instr_type = (opcode == 7'b0110011) ? R_TYPE :
-      (opcode == 7'b0010011) ? I_TYPE :  // I-type (Immediate arithmetic/logic)
-      (opcode == 7'b0000011) ? I_TYPE :  // I-type (Load)
-      (opcode == 7'b1100111) ? I_TYPE :  // I-type (JALR)
-      (opcode == 7'b0100011) ? S_TYPE :  // S-type (SW)
-      (opcode == 7'b1100011) ? B_TYPE :  // B-type (branches)
-      (opcode == 7'b1101111) ? J_TYPE :  // J-type (JAL)
-      (opcode == 7'b1110011) ? I_TYPE :  // I-type (ECALL, EBREAK, CSR)
+      (opcode == 7'b0010011) ? I_TYPE :  // Immediate arithmetic/logic
+      (opcode == 7'b0000011) ? I_TYPE :  // Load
+      (opcode == 7'b1100111) ? I_TYPE :  // JALR
+      (opcode == 7'b0100011) ? S_TYPE :  // SW
+      (opcode == 7'b1100011) ? B_TYPE :  // branches
+      (opcode == 7'b1101111) ? J_TYPE :  // JAL
       INVALID_TYPE;
 
   assign mem_read = (opcode == 7'b0000011) ? 1'b1 : 1'b0;  // LW
@@ -34,16 +33,16 @@ module cu (
       (instr_type == J_TYPE) ? 1'b1 :
       1'b0;
 
-  assign mem_write = (opcode == 7'b0100011) ? 1'b1 : 1'b0;  // only SD writes to memory
+  assign mem_write = (opcode == 7'b0100011) ? 1'b1 : 1'b0;  // only SW writes to memory
 
   assign alu_op = (instr_type == S_TYPE) ? ALU_ADD :  // stores
-      (instr_type == J_TYPE) ? ALU_ADD :  // JAL (calculate target address)
-      (opcode == 7'b1100111) ? ALU_ADD :  // JALR (calculate target address)
+      (instr_type == J_TYPE) ? ALU_ADD :  // JAL pc+4
+      (opcode == 7'b1100111) ? ALU_ADD :  // JALR pc+4
       (instr_type == B_TYPE) ? ALU_INVALID :  // branches
       (opcode == 7'b0110011 && funct3 == 0 && funct7 == 7'b0100000) ? ALU_SUB :  // SUB
-      (opcode == 7'b0110011 && funct3 == 3'b000 && funct7 == 7'b0000000) ? ALU_ADD :  // ADD
-      (opcode == 7'b0010011 && funct3 == 3'b000) ? ALU_ADD :  // ADDI
-      (opcode == 7'b0000011) ? ALU_ADD :  // LD (calculate address)
+      (opcode == 7'b0110011 && funct3 == 0 && funct7 == 7'b0000000) ? ALU_ADD :  // ADD
+      (opcode == 7'b0010011 && funct3 == 0) ? ALU_ADD :  // ADDI
+      (opcode == 7'b0000011) ? ALU_ADD :  // LW (calculate address)
       ALU_INVALID;  // For any other instruction
 
   assign use_imm = (instr_type == I_TYPE) ? 1'b1 :

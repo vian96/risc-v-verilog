@@ -24,7 +24,7 @@ typedef struct packed {
 } fe_to_de_s;
 
 typedef enum logic [4:0] {
-  ALU_ADD,  // Addition (for ADD, LD, SD, JALR, JAL, AUIPC)
+  ALU_ADD,
   ALU_SUB,
   ALU_INVALID
 } alu_op_e;
@@ -48,7 +48,7 @@ typedef struct packed {
   logic use_imm;
   logic is_branch;
   logic is_jalr;
-  logic is_jump;  // for uncond jumps: JAL(R)
+  logic is_jump;
   logic v_de;
 } de_to_ex_s;
 

@@ -30,12 +30,13 @@ module reg_file (
     $display(
         "Time %0t: \033[35m Reg file \033[0m -> Address = %d, val = 0x%h, enable = %d, %d = 0x%h, %d = 0x%h",
         $time, a3, wd, we3, a1, d1, a2, d2);
+
     if (we3 && (a3 != 0)) begin
       registers[a3] <= wd;
     end
   end
 
-  initial begin  // not needed, just for strahovka
+  initial begin
     for (int i = 0; i < 32; i = i + 1) begin
       registers[i] = 32'b0;
     end

@@ -16,7 +16,7 @@ module riscv_pipeline (
   ex_to_mem_s        ex_to_mem_wire;
   mem_to_wb_s        mem_to_wb_wire;
 
-  // wb -> dec
+  // wb -> decode
   logic       [ 4:0] wb_addr_wire;
   logic       [31:0] wb_data_wire;
   logic              wb_en_wire;

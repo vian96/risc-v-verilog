@@ -25,7 +25,7 @@ module simple_memory (
     mem[22] = 32'h00000014;
 
     // TEST 3
-    // It will be overwritten by the SW instruction.
+    // will be overwritten by SW
     mem[30] = 32'hFFFFFFFF;
 
     // TEST 4
