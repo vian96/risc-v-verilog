@@ -6,6 +6,7 @@ module tf_rvp;
   logic reset;
 
   // for debug or per-cycle checks
+  // verilator lint_off UNUSEDSIGNAL
   logic [4:0] wb_a;
   logic [31:0] wb_d;
   logic [31:0] pc_out;

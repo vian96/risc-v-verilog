@@ -2,7 +2,9 @@
 
 module simple_memory (
     input  logic        clk,
+    // verilator lint_off UNUSEDSIGNAL
     input  logic [31:0] address,
+    // verilator lint_on UNUSEDSIGNAL
     input  logic [31:0] write_data,
     input  logic        write_enable,
     output logic [31:0] read_data

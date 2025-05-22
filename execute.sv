@@ -2,7 +2,9 @@
 
 module execute (
     input logic             clk,
+    // verilator lint_off UNUSEDSIGNAL
     input de_to_ex_s        de_to_ex,
+    // verilator lint_on UNUSEDSIGNAL
     input hu_src_e          rs1s,
     input hu_src_e          rs2s,
     input logic      [31:0] bp_mem,

@@ -1,3 +1,4 @@
 .nvim/
 build/
 simulation_riscv
+obj_dir/
