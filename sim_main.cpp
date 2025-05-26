@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 
+bool cosim_ok = 1;
+
 template<typename T1, typename T2>
 bool check_states(T1 &sim1, T2 &sim2) {
     //if (sim1.pc != sim2.pc) {
@@ -34,7 +36,8 @@ void fill_hart_mem(Hart &hart) {
     auto instrs = readBinaryFileToVector_iterator("./build/instr.bin");
     for (int i = 0; i < 1024 && i < instrs.size(); i++)
         hart.memory[i] = instrs[i];
-        // FOR TEST 1
+
+    // FOR TEST 1
     ((uint32_t*)hart.memory)[75+0]  = 0xDEADBEEF;
     ((uint32_t*)hart.memory)[75+1]  = 0x12345678;
     ((uint32_t*)hart.memory)[75+2]  = 0xABCDEF01;
@@ -59,42 +62,33 @@ void fill_hart_mem(Hart &hart) {
     ((uint32_t*)hart.memory)[75+46] = 0xCEC0CEC0;
 }
 
-#define LOG(x) std::cout << #x << '\n';
-
 int main(int argc, char** argv) {
     SVSim svsim;
-    LOG(start)
     Hart hart;
     hart.pc = 4;
 
-    LOG(init)
-
     fill_hart_mem(hart);
-
-    LOG(filled)
 
     //for (int i = 0; i < 200; i++)
     //while (!svsim.done) {
     //    svsim.exec_instr();
     //}
 
-    //for (int i = 0; i < 32; i++) {
-    //    std::cout << std::dec << "reg[" << i << "] = 0x" << std::hex << svsim.registers[i] <<'\n';
-    //}
-
     int cnt = 0;
     do { // TODO: check infinite loop
-        LOG(loop)
         svsim.exec_instr();
-        LOG(inner)
         hart.exec_instr();
-        std::cout << "NOT FINISHED " << cnt++ << "\n";
-    } while (!svsim.done and !hart.done and check_states(svsim, hart));
+    } while (!svsim.done and !hart.done and (cosim_ok = check_states(svsim, hart)));
 
-    std::cout << "FINISHED\n";
+    svsim.dump_regs();
 
-    if (svsim.done != hart.done)
+    if (svsim.done != hart.done) {
         std::cerr << "done has different states!\n";
+        cosim_ok = false;
+    }
+
+    if (cosim_ok)
+        std::cout << "Cosim is ALL GOOD!\n";
     else
-      std::cout << "ALL GOOD!\n";
+        std::cout << "Cosim failed :(\n";
 }
