@@ -1,3 +1,3 @@
 TEST 3: JAL, JALR, SW + test1,2
-Expected: x10==123, x13==101, x20==1000, x30!=15 (zero likely), x12==36, x29!=33 (zero likely), x28==17
+Expected: x10==123, x12==36, x13==101, x20==1000, x28==17, x29!=33 (zero likely), x30!=15 (zero likely)
 
