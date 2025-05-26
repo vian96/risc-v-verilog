@@ -30,3 +30,5 @@ addi x6, x0, 100
 targetblt:
 addi x8, x0, 200
 
+ecall
+

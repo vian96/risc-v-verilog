@@ -12,7 +12,7 @@ all: sim
 sim:
 	$(VERILATOR) $(VERILATOR_FLAGS) --top-module $(TOP_MODULE) $(SRC_FILES) $(CPP_FILE) $(FUNC_SIM_CPPS)
 
-run:
+run: all
 	obj_dir/Vriscv_pipeline
 
 clean:

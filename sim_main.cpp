@@ -20,8 +20,10 @@ int main(int argc, char** argv) {
     SVSim svsim;
     //Hart hart;
 
-    for (int i = 0; i < 200; i++)
+    //for (int i = 0; i < 200; i++)
+    while (!svsim.done) {
         svsim.exec_instr();
+    }
 
     svsim.top->dump = 1;
     svsim.exec_instr();

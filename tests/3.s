@@ -60,7 +60,6 @@ addi x29, x0, 33 # should NOT be executed
 
 targetjalr:
 addi x28, x0, 17
-NOP # (Program execution should end here)
-NOP # (Further NOPs)
+ecall
 
 

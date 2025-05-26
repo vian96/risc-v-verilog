@@ -26,6 +26,7 @@ module memory (
 
     mem_to_wb_reg.data <= ex_to_mem.mem_read ? mem_data : ex_to_mem.alu_result;
     mem_to_wb_reg.reg_write <= ex_to_mem.reg_write;
+    mem_to_wb_reg.is_final <= ex_to_mem.is_final;
     mem_to_wb_reg.rd <= ex_to_mem.rd;
   end
 

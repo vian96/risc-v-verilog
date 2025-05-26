@@ -49,6 +49,7 @@ typedef struct packed {
   logic is_branch;
   logic is_jalr;
   logic is_jump;
+  logic is_final;
   logic v_de;
 } de_to_ex_s;
 
@@ -60,12 +61,14 @@ typedef struct packed {
   logic       mem_write;
   logic       reg_write;
   logic       mem_read;
+  logic       is_final;
   logic [4:0] rd;
 } ex_to_mem_s;
 
 typedef struct packed {
   logic [31:0] data;
   logic        reg_write;
+  logic        is_final;
   logic [4:0]  rd;
 } mem_to_wb_s;
 

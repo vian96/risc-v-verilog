@@ -13,6 +13,7 @@ module cu (
     output logic        is_branch,
     output logic        is_jump,
     output logic        is_jalr,
+    output logic        is_final,
     output instr_type_e instr_type
 );
 
@@ -20,6 +21,7 @@ module cu (
       (opcode == 7'b0010011) ? I_TYPE :  // Immediate arithmetic/logic
       (opcode == 7'b0000011) ? I_TYPE :  // Load
       (opcode == 7'b1100111) ? I_TYPE :  // JALR
+      (opcode == 7'b1110011) ? I_TYPE :  // ecall
       (opcode == 7'b0100011) ? S_TYPE :  // SW
       (opcode == 7'b1100011) ? B_TYPE :  // branches
       (opcode == 7'b1101111) ? J_TYPE :  // JAL
@@ -53,5 +55,6 @@ module cu (
   assign is_branch = (instr_type == B_TYPE) ? 1'b1 : 1'b0;
   assign is_jump = (instr_type == J_TYPE) ? 1'b1 : (opcode == 7'b1100111) ? 1'b1 : 1'b0;  // JAL(R)
   assign is_jalr = (opcode == 7'b1100111) ? 1'b1 : 1'b0;
+  assign is_final = (opcode == 7'b1110011);  // ecall
 
 endmodule

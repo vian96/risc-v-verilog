@@ -7,11 +7,11 @@ class SVSim {
 public:
     Vriscv_pipeline* top;
 
-    unsigned int &pc;
+    size_t pc;
     std::array<int32_t, 32> registers;
     bool done;
 
-    SVSim() : top(new Vriscv_pipeline), pc(top->pc_out) {
+    SVSim() : top(new Vriscv_pipeline), done(0), pc(0) {
         top = new Vriscv_pipeline;
 
         top->clk = 0;
@@ -36,6 +36,9 @@ public:
         top->clk = !top->clk;
         top->eval();
         Verilated::timeInc(1);
+
+        done = top->done;
+        pc = top->pc_out;
     }
 };
 

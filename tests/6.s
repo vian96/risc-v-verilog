@@ -9,7 +9,5 @@ _start:
 target:
 	addi x4, x0, 4
 	sub x5, x3, x1
-	NOP
-	NOP
-	NOP
+	ecall
 

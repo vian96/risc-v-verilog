@@ -69,6 +69,7 @@ module decode (
       .use_imm   (de_to_ex_int.use_imm),
       .is_branch (de_to_ex_int.is_branch),
       .is_jump   (de_to_ex_int.is_jump),
+      .is_final  (de_to_ex_int.is_final),
       .instr_type(instr_type),
       .is_jalr   (de_to_ex_int.is_jalr)
   );

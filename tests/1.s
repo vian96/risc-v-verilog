@@ -6,4 +6,5 @@ _start:
 	lw x2, 304(x0)
 	addi x7, x0, 4
 	lw x3, 308(x7)
+	ecall
 
