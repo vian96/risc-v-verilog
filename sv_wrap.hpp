@@ -10,6 +10,9 @@ public:
     unsigned int *registers;
     bool done;
 
+    size_t instr_cnt;
+    size_t cycle_cnt;
+
     void run_cycle() {
         top->clk = !top->clk;
         top->eval();
@@ -44,8 +47,10 @@ public:
     void exec_instr() {
         do {
             run_cycle();
+            cycle_cnt++;
         } while (!top->ins_done);
 
+        instr_cnt++;
         done = top->done;
         pc = top->pc_out;
     }

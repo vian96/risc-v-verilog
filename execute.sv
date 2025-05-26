@@ -1,15 +1,16 @@
 `include "riscv_structures.sv"
 
 module execute (
-    input logic             clk,
+    input logic      clk,
     // verilator lint_off UNUSEDSIGNAL
-    input de_to_ex_s        de_to_ex,
+    input de_to_ex_s de_to_ex,
     // verilator lint_on UNUSEDSIGNAL
-    input hu_src_e          rs1s,
-    input hu_src_e          rs2s,
-    input logic      [31:0] bp_mem,
-    input logic      [31:0] bp_wb,
-    input logic             flush,
+
+    input hu_src_e        rs1s,
+    input hu_src_e        rs2s,
+    input logic    [31:0] bp_mem,
+    input logic    [31:0] bp_wb,
+    input logic           flush,
 
     output ex_to_mem_s        ex_to_mem,
     output logic              pc_reset,

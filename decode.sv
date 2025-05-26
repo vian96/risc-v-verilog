@@ -13,8 +13,8 @@ module decode (
     input logic             write_back_enable,
 
     input logic dump,  // print regs
-
     output logic [31:0] regs[32],
+
     output de_to_ex_s de_to_ex
 );
 

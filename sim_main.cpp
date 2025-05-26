@@ -82,6 +82,9 @@ int main(int argc, char** argv) {
         cosim_ok = false;
     }
 
+    std::cout << std::dec << "Cosim of SV executed " << svsim.instr_cnt << " instrs and "
+              << svsim.cycle_cnt << " cycles\n";
+
     if (cosim_ok)
         std::cout << "Cosim is ALL GOOD!\n";
     else
