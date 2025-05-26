@@ -1,6 +1,8 @@
 #include "sv_wrap.cpp"
 #include "func_sim/hart.hpp"
+
 #include <iostream>
+#include <iomanip>
 
 template<typename T1, typename T2>
 bool check_states(T1 &sim1, T2 &sim2) {
@@ -25,8 +27,11 @@ int main(int argc, char** argv) {
         svsim.exec_instr();
     }
 
-    svsim.top->dump = 1;
-    svsim.exec_instr();
+    for (int i = 0; i < 32; i++) {
+        std::cout << std::dec << "reg[" << i << "] = 0x" << std::hex << svsim.registers[i] <<'\n';
+    }
+    //svsim.top->dump = 1;
+    //svsim.exec_instr();
     //do { // TODO: check infinite loop
     //    svsim.exec_instr();
     //    //hart.exec_instr();

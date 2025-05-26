@@ -9,6 +9,7 @@ module riscv_pipeline (
     output logic [31:0] wb_d,
     output logic [31:0] pc_out,
     output logic        done,
+    output logic [31:0] regs   [32],
     input  logic        dump
 );
 
@@ -67,6 +68,7 @@ module riscv_pipeline (
       .de_to_ex(de_to_ex_wire),
       .dump(dump),
       .reset(reset),
+      .regs(regs),
       .en(~stall)
   );
 

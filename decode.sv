@@ -14,6 +14,7 @@ module decode (
 
     input logic dump,  // print regs
 
+    output logic [31:0] regs[32],
     output de_to_ex_s de_to_ex
 );
 
@@ -52,6 +53,7 @@ module decode (
 
       .d1  (de_to_ex_int.rs1_val),
       .d2  (de_to_ex_int.rs2_val),
+      .regs(regs),
       .dump(dump)
   );
 

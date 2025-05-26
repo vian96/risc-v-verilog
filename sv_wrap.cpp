@@ -8,11 +8,13 @@ public:
     Vriscv_pipeline* top;
 
     size_t pc;
-    std::array<int32_t, 32> registers;
+    unsigned int *registers;
     bool done;
 
     SVSim() : top(new Vriscv_pipeline), done(0), pc(0) {
         top = new Vriscv_pipeline;
+
+        registers = top->regs;
 
         top->clk = 0;
         top->reset = 1;
