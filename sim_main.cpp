@@ -1,4 +1,4 @@
-#include "sv_wrap.cpp"
+#include "sv_wrap.hpp"
 #include "func_sim/hart.hpp"
 
 #include <cstdint>
@@ -68,11 +68,6 @@ int main(int argc, char** argv) {
     hart.pc = 4;
 
     fill_hart_mem(hart);
-
-    //for (int i = 0; i < 200; i++)
-    //while (!svsim.done) {
-    //    svsim.exec_instr();
-    //}
 
     int cnt = 0;
     do { // TODO: check infinite loop
