@@ -3,11 +3,11 @@
 
 _start:
 # for beq
-lw   x1, 80(x0)
-lw   x2, 80(x0)
+lw   x1, 380(x0)
+lw   x2, 380(x0)
 
 addi x7, x0, 76
-lw   x3, 12(x7)   # Load from 12 + x7 (76) = 88
+lw   x3, 312(x7)   # Load from 12 + x7 (76) = 88
 
 # for blt
 addi x4, x0, 5

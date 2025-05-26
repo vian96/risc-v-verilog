@@ -5,8 +5,8 @@ _start:
 # store 123 into address 120 (0x78), then load back
 addi x10, x0, 0
 addi x11, x0, 123
-sw   x11, 120(x10)
-lw   x10, 120(x0)
+sw   x11, 420(x10)
+lw   x10, 420(x0)
 # Expected: x10==123
 
 # Test JAL: call a func and check return address

@@ -15,28 +15,28 @@ module simple_memory (
 
   initial begin
     // FOR TEST 1
-    mem[0]  = 32'hDEADBEEF;
-    mem[1]  = 32'h12345678;
-    mem[2]  = 32'hABCDEF01;
-    mem[3]  = 32'hFEDCBA98;
+    mem[75+0]  = 32'hDEADBEEF;
+    mem[75+1]  = 32'h12345678;
+    mem[75+2]  = 32'hABCDEF01;
+    mem[75+3]  = 32'hFEDCBA98;
 
     // FOR TEST 2
-    mem[20] = 32'h00000005;
-    mem[21] = 32'h0000000A;
+    mem[75+20] = 32'h00000005;
+    mem[75+21] = 32'h0000000A;
 
-    mem[22] = 32'h00000014;
+    mem[75+22] = 32'h00000014;
 
     // TEST 3
     // will be overwritten by SW
-    mem[30] = 32'hFFFFFFFF;
+    mem[75+30] = 32'hFFFFFFFF;
 
     // TEST 4
-    mem[32] = 32'hAB0BAB0B;
+    mem[75+32] = 32'hAB0BAB0B;
 
     // TEST 5
-    mem[34] = 32'h7c;  // 124+36=160=mem[40]
-    mem[40] = 32'h5c;  // 92+92=184=mem[46]
-    mem[46] = 32'hCEC0CEC0;
+    mem[75+34] = 32'h7c;  // 124+36=160=mem[40]
+    mem[75+40] = 32'h5c;  // 92+92=184=mem[46]
+    mem[75+46] = 32'hCEC0CEC0;
   end
 
   // verilator lint_off WIDTH

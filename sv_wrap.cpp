@@ -4,10 +4,9 @@
 #include <iostream>
 
 class SVSim {
-private:
+public:
     Vriscv_pipeline* top;
 
-public:
     unsigned int &pc;
     std::array<int32_t, 32> registers;
     bool done;

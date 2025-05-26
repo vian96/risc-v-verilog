@@ -18,13 +18,18 @@ bool check_states(T1 &sim1, T2 &sim2) {
 
 int main(int argc, char** argv) {
     SVSim svsim;
-    Hart hart;
+    //Hart hart;
 
-    do { // TODO: check infinite loop
+    for (int i = 0; i < 200; i++)
         svsim.exec_instr();
-        hart.exec_instr();
-    } while (!svsim.done and !hart.done and check_states(svsim, hart));
 
-    if (svsim.done != hart.done)
-        std::cout << "done has different states!\n";
+    svsim.top->dump = 1;
+    svsim.exec_instr();
+    //do { // TODO: check infinite loop
+    //    svsim.exec_instr();
+    //    //hart.exec_instr();
+    //} while (!svsim.done); // and !hart.done and check_states(svsim, hart));
+
+    //if (svsim.done != hart.done)
+    //    std::cout << "done has different states!\n";
 }

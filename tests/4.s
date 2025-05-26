@@ -2,7 +2,7 @@
 	.option norelax
 
 _start:
-	lw x1, 128(x0)
+	lw x1, 428(x0)
 	add x2, x1, x0
 
 
