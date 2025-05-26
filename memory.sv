@@ -28,6 +28,7 @@ module memory (
     mem_to_wb_reg.reg_write <= ex_to_mem.reg_write;
     mem_to_wb_reg.is_final <= ex_to_mem.is_final;
     mem_to_wb_reg.rd <= ex_to_mem.rd;
+    mem_to_wb_reg.instr_done <= ex_to_mem.instr_done;
   end
 
 endmodule

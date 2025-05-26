@@ -2,6 +2,7 @@
 	.option norelax
 
 _start:
+	nop
 	addi x1, x0, 1
 	addi x2, x0, 2
 	blt x1, x2, target

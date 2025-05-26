@@ -16,8 +16,9 @@ module writeback (
 
   always @(posedge clk) begin
     $display(
-        "Time %0t: \033[32m Write Back \033[0m -> Address = 0x%h, val = 0x%h, enable = 0x%h, final %d",
-        $time, writeback_address, write_back_data, write_back_enable, mem_to_wb.is_final);
+        "Time %0t: \033[32m Write Back \033[0m -> Address = 0x%h, val = 0x%h, enable = 0x%h, final %d done %d",
+        $time, writeback_address, write_back_data, write_back_enable, mem_to_wb.is_final,
+        mem_to_wb.instr_done);
   end
 
 

@@ -2,6 +2,7 @@
 	.option norelax
 
 _start:
+nop
 # store 123 into address 120 (0x78), then load back
 addi x10, x0, 0
 addi x11, x0, 123
@@ -17,7 +18,7 @@ jal  x1, targetjal   # instr #5
 addi x20, x0, 1000   # verify correct return
 
 # Test JALR
-addi x15, x0, 140    # targetjalr
+addi x15, x0, 144    # targetjalr
 jalr x12, 0(x15)     # instr #8
 # x12 should be 8*4+4=36
 
@@ -56,7 +57,7 @@ NOP
 
 addi x29, x0, 33 # should NOT be executed
 
-# here should be 140
+# here should be 144
 
 targetjalr:
 addi x28, x0, 17

@@ -2,6 +2,7 @@
 	.option norelax
 
 _start:
+nop
 # for beq
 lw   x1, 380(x0)
 lw   x2, 380(x0)

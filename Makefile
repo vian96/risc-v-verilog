@@ -20,6 +20,7 @@ clean:
 
 test_build:
 	@echo "building test number: $(TEST_NUMBER)"
+	mkdir -p build
 	riscv64-unknown-elf-gcc -nostdlib -march=rv32i -mabi=ilp32 tests/$(TEST_NUMBER).s -o build/instr.o
 	riscv64-unknown-elf-objcopy -O binary build/instr.o build/instr.bin
 	py bin_to_hex.py build/instr.bin build/instr.hex

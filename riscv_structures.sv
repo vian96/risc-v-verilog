@@ -20,7 +20,8 @@ typedef enum logic [1:0] {
 typedef struct packed {
   logic [31:0] instruction_value;
   logic [31:0] pc_value;
-  logic pc_r;
+  logic        instr_done;
+  logic        pc_r;
 } fe_to_de_s;
 
 typedef enum logic [4:0] {
@@ -38,7 +39,6 @@ typedef struct packed {
   logic [31:0] rs1_val;
   logic [31:0] rs2_val;
   logic [31:0] sext_imm;
-  logic [23:0] instruction_bits_30_7;  // if i want to move imm to ex
 
   // Control signals
   alu_op_e alu_op;
@@ -50,6 +50,7 @@ typedef struct packed {
   logic is_jalr;
   logic is_jump;
   logic is_final;
+  logic instr_done;
   logic v_de;
 } de_to_ex_s;
 
@@ -62,6 +63,7 @@ typedef struct packed {
   logic       reg_write;
   logic       mem_read;
   logic       is_final;
+  logic       instr_done;
   logic [4:0] rd;
 } ex_to_mem_s;
 
@@ -69,6 +71,7 @@ typedef struct packed {
   logic [31:0] data;
   logic        reg_write;
   logic        is_final;
+  logic        instr_done;
   logic [4:0]  rd;
 } mem_to_wb_s;
 

@@ -18,7 +18,7 @@ public:
 
         top->clk = 0;
         top->reset = 1;
-        top->pc_init = 0;
+        top->pc_init = 4; // for cosim with prev sem
         top->dump = 0;
 
         // Hold reset for a few cycles
@@ -38,6 +38,15 @@ public:
         top->clk = !top->clk;
         top->eval();
         Verilated::timeInc(1);
+
+        while (!top->ins_done) {
+            top->clk = !top->clk;
+            top->eval();
+            Verilated::timeInc(1);
+            top->clk = !top->clk;
+            top->eval();
+            Verilated::timeInc(1);
+        }
 
         done = top->done;
         pc = top->pc_out;

@@ -82,17 +82,18 @@ module decode (
       .sext_imm(de_to_ex_int.sext_imm)
   );
 
-  assign de_to_ex_int.pc_value = fe_to_de.pc_value;
-  assign de_to_ex_int.instruction_bits_30_7 = instruction[30:7];
-  assign de_to_ex_int.v_de = !(pc_r || fe_to_de.pc_r);
+  assign de_to_ex_int.pc_value   = fe_to_de.pc_value;
+  assign de_to_ex_int.v_de       = !(pc_r || fe_to_de.pc_r);
+  assign de_to_ex_int.instr_done = fe_to_de.instr_done && !(pc_r || fe_to_de.pc_r);
 
   always_ff @(posedge clk or posedge reset) begin
     $display("Time %0t: decode -> v_de %d, pc_r %d, fe.pc_r %d, en %d", $time, de_to_ex_reg.v_de,
              pc_r, fe_to_de.pc_r, en);
 
     if (reset) begin
-      de_to_ex_reg.mem_read <= 0;  // for backward loop at start
-      de_to_ex_reg.v_de     <= 0;
+      de_to_ex_reg.mem_read   <= 0;  // for backward loop at start
+      de_to_ex_reg.v_de       <= 0;
+      de_to_ex_reg.instr_done <= 0;
     end else if (en) begin
       de_to_ex_reg <= de_to_ex_int;
     end

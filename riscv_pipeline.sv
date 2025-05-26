@@ -9,7 +9,8 @@ module riscv_pipeline (
     output logic [31:0] wb_d,
     output logic [31:0] pc_out,
     output logic        done,
-    output logic [31:0] regs   [32],
+    output logic [31:0] regs    [32],
+    output logic        ins_done,
     input  logic        dump
 );
 
@@ -104,6 +105,7 @@ module riscv_pipeline (
   assign wb_a = wb_addr_wire;
 
   assign done = mem_to_wb_wire.is_final;
+  assign ins_done = mem_to_wb_wire.instr_done;
 
 endmodule
 

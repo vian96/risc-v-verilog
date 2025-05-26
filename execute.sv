@@ -59,12 +59,14 @@ module execute (
         rs1_val, rs2_val, de_to_ex.v_de, flush, de_to_ex.mem_read && ~flush, de_to_ex.is_final);
 
     if (flush) begin
-      ex_to_mem_reg.mem_write <= 0;
-      ex_to_mem_reg.reg_write <= 0;
-      ex_to_mem_reg.mem_read  <= 0;  // for lw after lw causing reset
+      ex_to_mem_reg.mem_write  <= 0;
+      ex_to_mem_reg.reg_write  <= 0;
+      ex_to_mem_reg.mem_read   <= 0;  // for lw after lw causing reset
+      ex_to_mem_reg.instr_done <= 0;
     end else begin
       ex_to_mem_reg.mem_write  <= de_to_ex.mem_write && de_to_ex.v_de;
       ex_to_mem_reg.reg_write  <= de_to_ex.reg_write && de_to_ex.v_de;
+      ex_to_mem_reg.instr_done <= de_to_ex.instr_done && de_to_ex.v_de;
       ex_to_mem_reg.rd         <= de_to_ex.rd;
       ex_to_mem_reg.mem_data   <= rs2_val;
       ex_to_mem_reg.mem_read   <= de_to_ex.mem_read;

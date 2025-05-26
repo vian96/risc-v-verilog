@@ -33,11 +33,13 @@ module fetch (
       fe_to_de_reg.instruction_value <= '0;
       fe_to_de_reg.pc_value <= pc_init;
       fe_to_de_reg.pc_r <= 0;
+      fe_to_de_reg.instr_done <= 0;
     end else if (en) begin
       fe_to_de_reg.instruction_value <= instruction;
       fe_to_de_reg.pc_value <= pc;
       fe_to_de_reg.pc_r <= pc_r;
       pc <= pc_r ? pc_exec : (pc + 32'd4);
+      fe_to_de_reg.instr_done <= 1;
     end
   end
 
