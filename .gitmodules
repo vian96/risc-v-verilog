@@ -1,0 +1,4 @@
+[submodule "func_sim"]
+	path = func_sim
+	url = git@github.com:vian96/riscv64-simulator.git
+	branch = cosimulate

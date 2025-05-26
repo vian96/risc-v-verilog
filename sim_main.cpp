@@ -1,34 +1,54 @@
-#include "Vtf_rvp.h"
+#include "Vriscv_pipeline.h"
 #include "verilated.h"
-//#include "verilated_vcd_c.h"
+#include "verilated_vcd_c.h"
 #include <iostream>
 
 int main(int argc, char** argv) {
-    // Initialize Verilator
     Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
 
-    // Instantiate the top module
-    Vtf_rvp* top = new Vtf_rvp;
+    Vriscv_pipeline* top = new Vriscv_pipeline;
 
-    // Set up VCD tracing
-    //VerilatedVcdC* tfp = new VerilatedVcdC;
-    //top->trace(tfp, 99); // Trace 99 levels of hierarchy
-    //tfp->open("sim.vcd");
+    top->clk = 0;
+    top->reset = 1;
+    top->pc_init = 0;
+    top->dump = 0;
 
-    // Run simulation for a fixed number of cycles or until $finish
-    vluint64_t max_time = 3000; // Adjust based on your needs
-    while (!Verilated::gotFinish() && Verilated::time() < max_time) {
+    // Hold reset for 5 cycles (10 edges)
+    for (int i = 0; i < 10; i++) {
+        top->clk = !top->clk;
         top->eval();
-        //tfp->dump(Verilated::time());
-        Verilated::timeInc(1); // Increment simulation time
+        Verilated::timeInc(1);
     }
 
-    // Clean up
-    //tfp->close();
+    top->reset = 0;
+
+    // Run until pc_out >= 150 or time >= 2000
+    while (top->pc_out < 150 && Verilated::time() < 2000) {
+        top->clk = !top->clk;
+        top->eval();
+        std::cout << "Time: " << Verilated::time() << ", pc_out: " << top->pc_out << std::endl;
+        Verilated::timeInc(1);
+    }
+
+    // Wait 4 cycles
+    for (int i = 0; i < 8; i++) {
+        top->clk = !top->clk;
+        top->eval();
+        Verilated::timeInc(1);
+    }
+
+    // Trigger register dump
+    top->dump = 1;
+    top->clk = !top->clk;
+    top->eval();
+    Verilated::timeInc(1);
+    top->clk = !top->clk;
+    top->eval();
+    Verilated::timeInc(1);
+
     top->final();
     delete top;
-    //delete tfp;
 
     std::cout << "Simulation finished at time: " << Verilated::time() << std::endl;
     return 0;
