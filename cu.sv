@@ -31,7 +31,6 @@ module cu (
 
   assign reg_write = (instr_type == R_TYPE) ? 1'b1 :
       (instr_type == I_TYPE) ? 1'b1 :
-      (instr_type == U_TYPE) ? 1'b1 :
       (instr_type == J_TYPE) ? 1'b1 :
       1'b0;
 
