@@ -1,6 +1,6 @@
 `include "riscv_structures.sv"
 
-module simple_memory (
+module data_memory (
     input  logic        clk,
     // verilator lint_off UNUSEDSIGNAL
     input  logic [31:0] address,

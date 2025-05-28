@@ -11,7 +11,7 @@ module memory (
 
   logic [31:0] mem_data;
 
-  simple_memory data_mem_inst (
+  data_memory data_mem_inst (
       .clk         (clk),
       .address     (ex_to_mem.alu_result),
       .read_data   (mem_data),
