@@ -12,6 +12,8 @@ module execute (
     input logic    [31:0] bp_wb,
     input logic           flush,
 
+    input logic enable,
+
     output ex_to_mem_s        ex_to_mem,
     output logic              pc_reset,
     output logic       [31:0] pc_exec
@@ -59,20 +61,22 @@ module execute (
         rs2s, bp_mem, bp_wb, cmp_res, de_to_ex.is_jump, de_to_ex.reg_write && de_to_ex.v_de,
         rs1_val, rs2_val, de_to_ex.v_de, flush, de_to_ex.mem_read && ~flush, de_to_ex.is_final);
 
-    if (flush) begin
-      ex_to_mem_reg.mem_write  <= 0;
-      ex_to_mem_reg.reg_write  <= 0;
-      ex_to_mem_reg.mem_read   <= 0;  // for lw after lw causing reset
-      ex_to_mem_reg.instr_done <= 0;
-    end else begin
-      ex_to_mem_reg.mem_write  <= de_to_ex.mem_write && de_to_ex.v_de;
-      ex_to_mem_reg.reg_write  <= de_to_ex.reg_write && de_to_ex.v_de;
-      ex_to_mem_reg.instr_done <= de_to_ex.instr_done && de_to_ex.v_de;
-      ex_to_mem_reg.rd         <= de_to_ex.rd;
-      ex_to_mem_reg.mem_data   <= rs2_val;
-      ex_to_mem_reg.mem_read   <= de_to_ex.mem_read;
-      ex_to_mem_reg.is_final   <= de_to_ex.is_final;
-      ex_to_mem_reg.alu_result <= alu_result;
+    if (enable) begin
+      if (flush) begin
+        ex_to_mem_reg.mem_write  <= 0;
+        ex_to_mem_reg.reg_write  <= 0;
+        ex_to_mem_reg.mem_read   <= 0;  // for lw after lw causing reset
+        ex_to_mem_reg.instr_done <= 0;
+      end else begin
+        ex_to_mem_reg.mem_write  <= de_to_ex.mem_write && de_to_ex.v_de;
+        ex_to_mem_reg.reg_write  <= de_to_ex.reg_write && de_to_ex.v_de;
+        ex_to_mem_reg.instr_done <= de_to_ex.instr_done && de_to_ex.v_de;
+        ex_to_mem_reg.rd         <= de_to_ex.rd;
+        ex_to_mem_reg.mem_data   <= rs2_val;
+        ex_to_mem_reg.mem_read   <= de_to_ex.mem_read;
+        ex_to_mem_reg.is_final   <= de_to_ex.is_final;
+        ex_to_mem_reg.alu_result <= alu_result;
+      end
     end
   end
 

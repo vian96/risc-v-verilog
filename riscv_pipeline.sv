@@ -32,6 +32,8 @@ module riscv_pipeline (
   hu_src_e           rs2s;
   logic              stall;
 
+  logic              mem_ready;
+
   hu hu_inst (
       .clk(clk),
       .ex_rs1(de_to_ex_wire.rs1),
@@ -56,7 +58,7 @@ module riscv_pipeline (
       .pc_exec(pc_exec),
       .fe_to_de(fe_to_de_wire),
       .pc_out(pc_out),
-      .en(~stall)
+      .en(~stall && mem_ready)
   );
 
   decode decode_inst (
@@ -70,7 +72,7 @@ module riscv_pipeline (
       .dump(dump),
       .reset(reset),
       .regs(regs),
-      .en(~stall)
+      .en(~stall && mem_ready)
   );
 
   execute execute_inst (
@@ -82,12 +84,14 @@ module riscv_pipeline (
       .rs1s(rs1s),
       .rs2s(rs2s),
       .flush(stall),
+      .enable(mem_ready),
       .bp_mem(ex_to_mem_wire.alu_result),
       .bp_wb(mem_to_wb_wire.data)
   );
 
   memory memory_inst (
       .clk(clk),
+      .mem_ready(mem_ready),
       .ex_to_mem(ex_to_mem_wire),
       .mem_to_wb(mem_to_wb_wire)
   );
