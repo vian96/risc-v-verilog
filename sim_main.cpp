@@ -9,16 +9,31 @@ bool cosim_ok = 1;
 
 template<typename T1, typename T2>
 bool check_states(T1 &sim1, T2 &sim2) {
+    static uint32_t regs1[32];
+    static uint32_t regs2[32];
+
     //if (sim1.pc != sim2.pc) {
     //    std::cerr << "pc has different values!\n";
     //    return false;
     //}
-    for (int i = 0; i < 32; i++)
+    for (int i = 0; i < 32; i++) {
+        if (regs1[i] != (uint32_t)sim1.registers[i]) {
+            std::cout << "RegChange of sim1's x" << i << " "
+                      << regs1[i] << " to " << (uint32_t)sim1.registers[i] << '\n';
+            regs1[i] = sim1.registers[i];
+        }
+        //if (regs2[i] != (uint32_t)sim2.registers[i]) {
+        //    std::cout << "RegChange of sim2's x" << i << " "
+        //              << regs2[i] << " to " << (uint32_t)sim2.registers[i] << '\n';
+        //    regs2[i] = sim2.registers[i];
+        //}
+
         if ((uint32_t)sim1.registers[i] != (uint32_t)sim2.registers[i]) {
             std::cerr << "reg " << i << " has different values!\n";
-            std::cerr<< std::hex << sim1.registers[i] << ' ' << sim2.registers[i] << '\n';
+            std::cerr << std::hex << sim1.registers[i] << ' ' << sim2.registers[i] << '\n';
             return false;
         }
+    }
     return true;
 }
 

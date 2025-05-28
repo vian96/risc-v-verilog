@@ -26,7 +26,7 @@ test_build:
 	py bin_to_hex.py build/instr.bin build/instr.hex
 
 test: sim test_build
-	obj_dir/Vriscv_pipeline | rg '(reg\[|Cosim)' | rg '(= (0x0*[1-9a-f][0-9a-f]*)?|Cosim)'
+	obj_dir/Vriscv_pipeline | rg '(reg\[|Cosim|RegChange)' | rg '(= (0x0*[1-9a-f][0-9a-f]*)?|Cosim|([0-9][0-9]*) to ([0-9][0-9]*))'
 	@echo "test number $(TEST_NUMBER) was run"
 	cat tests/$(TEST_NUMBER).txt
 
